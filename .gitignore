@@ -1,0 +1,25 @@
+﻿# Build and publish output 
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.pdb
+*.log
+*.vspscc
+*.vssscc 
+*.suo 
+*.cache 
+*.csproj.user 
+*.userprefs  
+
+# Rider-specific files
+/.idea/**/* 
+*.iml
+
+  # Visual Studio-specific files 
+.vs/ 
+*.sln.ide
+*.sln.docstates
+*.sln.cache 
+*.sln.DotSettings.user  
