@@ -32,6 +32,8 @@ public class User : BaseEntity
 
     public DateTime? LastConnectionDate { get; set; }
     
+    public UserStatus Status { get; set; } = UserStatus.Pending;
+    
     [Required]
     public int OrganizationId { get; set; }
     public Organization Organization { get; set; } = new Organization();

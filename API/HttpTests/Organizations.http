@@ -1,0 +1,16 @@
+@BACK_URL = https://localhost:7171/api
+
+
+POST {{BACK_URL}}/Organizations
+Content-Type: application/json
+
+{
+  "Name": "azerty",
+  "City": "Lyon",
+  "PostalCode": "69200",
+  "Address": "Adresse Adresse"
+}
+
+
+###
+GET {{BACK_URL}}/Organizations/1

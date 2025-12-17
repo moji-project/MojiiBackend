@@ -1,0 +1,11 @@
+@BACK_URL = https://localhost:7171/api
+
+
+POST {{BACK_URL}}/Comments
+Content-Type: application/json
+
+{
+  "content": "This is a test comment from Comments.http",
+  "postId": 2,
+  "userId": 1
+}

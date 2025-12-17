@@ -1,0 +1,25 @@
+@BACK_URL = https://localhost:7171/api
+
+
+###
+GET {{BACK_URL}}/Channels/GetAllForUser/1
+
+
+###
+GET {{BACK_URL}}/Channels/1
+
+
+###
+POST {{BACK_URL}}/Channels
+Content-Type: application/json
+
+{
+  "Name": "azerty"
+}
+
+
+###
+DELETE {{BACK_URL}}/Channels/1
+  
+  
+  

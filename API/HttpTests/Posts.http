@@ -1,0 +1,24 @@
+@BACK_URL = https://localhost:7171/api
+
+
+GET {{BACK_URL}}/Posts
+
+
+###
+GET {{BACK_URL}}/Posts/GetAllByIsThread/true
+
+
+###
+POST {{BACK_URL}}/Posts
+Content-Type: application/json
+
+{
+  "isThread": true,
+  "Content": "QSDSDFDS de AZEZAZERE post",
+  "userId": 1
+}
+
+
+###
+DELETE {{BACK_URL}}/Posts/1
+

@@ -1,0 +1,7 @@
+﻿@BACK_URL = https://localhost:7171/api
+
+GET {{BACK_URL}}/Users
+Accept: application/json
+
+###
+GET {{BACK_URL}}/Users/1

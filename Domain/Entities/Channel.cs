@@ -8,7 +8,7 @@ public class Channel : BaseEntity
     public string Name { get; set; } = string.Empty;
     
     [MaxLength(500)]
-    public string? Description { get; set; }
+    public string? ImageUrl { get; set; }
     
     
     public List<User> Users { get; set; } = new List<User>();
