@@ -1,20 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using MojiiBackend.Application.Shared;
 using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Infrastructure.Database;
 
-public class AppDbContext: DbContext
+public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     
-    public DbSet<User> Users { get; set; }
-    public  DbSet<Message> Messages { get; set; }
-    public  DbSet<Post> Posts { get; set; }
-    public  DbSet<Comment> Comments { get; set; }
-    public  DbSet<Channel> Channels { get; set; }
-    public  DbSet<UserState> UserStates { get; set; }
-    public  DbSet<Filiere> Filieres { get; set; }
-    public  DbSet<Organization> Organizations { get; set; }
+    public DbSet<Message> Messages { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Channel> Channels { get; set; }
+    public DbSet<UserState> UserStates { get; set; }
+    public DbSet<Filiere> Filieres { get; set; }
+    public DbSet<Organization> Organizations { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +44,8 @@ public class AppDbContext: DbContext
         ConfigureManyToManyRelationships(modelBuilder);
 
         ConfigureDeleteBehavior(modelBuilder);
+
+        SeedData(modelBuilder);
     }
 
     private void ConfigureManyToManyRelationships(ModelBuilder modelBuilder)
@@ -111,6 +116,13 @@ public class AppDbContext: DbContext
             .WithMany(u => u.Comments)
             .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        // Si on supprime un User, les RefreshTokens associés sont supprimés (Cascade)
+        modelBuilder.Entity<RefreshToken>()
+            .HasOne(rt => rt.User)
+            .WithMany(u => u.RefreshTokens)
+            .HasForeignKey(rt => rt.UserId)
+            .OnDelete(DeleteBehavior.Cascade);  
     }
     
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -123,5 +135,25 @@ public class AppDbContext: DbContext
             }
         }
         return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void SeedData(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<IdentityRole<int>>().HasData(
+            new IdentityRole<int>
+            {
+                Id = 1,
+                Name = AppRoles.Admin,
+                NormalizedName = AppRoles.Admin.ToUpperInvariant(),
+                ConcurrencyStamp = "ADMIN_CONCURRENCY_STAMP"
+            },
+            new IdentityRole<int>
+            {
+                Id = 2,
+                Name = AppRoles.Student,
+                NormalizedName = AppRoles.Student.ToUpperInvariant(),
+                ConcurrencyStamp = "STUDENT_CONCURRENCY_STAMP"
+            }
+        );
     }
 }

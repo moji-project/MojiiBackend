@@ -11,7 +11,7 @@ public class Channel : BaseEntity
     public string? ImageUrl { get; set; }
     
     
-    public List<User> Users { get; set; } = new List<User>();
+    public List<User> Users { get; set; } = [];
     
-    public List<Message> Messages { get; set; } = new List<Message>();
+    public List<Message> Messages { get; set; } = [];
 }

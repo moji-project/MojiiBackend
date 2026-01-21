@@ -20,8 +20,8 @@ public class Post : BaseEntity
     public int UserId { get; set; }
     public User User { get; set; } = new User();
     
-    public List<Comment> Comments { get; set; } = new List<Comment>();
+    public List<Comment> Comments { get; set; } = [];
     
-    public List<User> HavingLikedUsers { get; set; } = new List<User>();
-    public List<User> HavingSavedUsers { get; set; } = new List<User>();
+    public List<User> HavingLikedUsers { get; set; } = [];
+    public List<User> HavingSavedUsers { get; set; } = [];
 }

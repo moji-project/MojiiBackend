@@ -1,0 +1,31 @@
+﻿@BACK_URL = https://localhost:7171/api
+
+POST {{BACK_URL}}/Auth/register
+Accept: application/json
+Content-Type: application/json
+
+{
+    "Email": "azerty@yopmail.com",
+    "Password": "Azertyui12&"
+}
+
+> {%
+    // On enregistre le token dans une variable globale
+    client.global.set("auth_token", response.body.accessToken);
+%}
+
+
+###
+POST {{BACK_URL}}/Auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "Email": "azerty@yopmail.com",
+    "Password": "Azertyui12&"
+}
+
+> {%
+    // On enregistre le token dans une variable globale
+    client.global.set("auth_token", response.body.accessToken);
+%}

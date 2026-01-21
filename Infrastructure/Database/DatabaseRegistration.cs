@@ -10,7 +10,6 @@ public static class DatabaseRegistration
             .AddDbContext<AppDbContext>(options => 
                 options
                     .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
-                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                     .EnableDetailedErrors(environment.IsDevelopment())
                     .EnableSensitiveDataLogging(environment.IsDevelopment())
             );

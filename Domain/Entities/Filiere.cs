@@ -15,5 +15,5 @@ public class Filiere : BaseEntity
     public int OrganizationId { get; set; }
     public Organization Organization { get; set; } = new Organization();
     
-    public List<User> Users { get; set; } = new List<User>();
+    public List<User> Users { get; set; } = [];
 }

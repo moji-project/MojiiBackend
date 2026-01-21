@@ -3,14 +3,17 @@
 
 ###
 GET {{BACK_URL}}/Channels/GetAllForUser/1
+Authorization: Bearer {{auth_token}}
 
 
 ###
 GET {{BACK_URL}}/Channels/1
+Authorization: Bearer {{auth_token}}
 
 
 ###
 POST {{BACK_URL}}/Channels
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
@@ -20,6 +23,7 @@ Content-Type: application/json
 
 ###
 DELETE {{BACK_URL}}/Channels/1
-  
+Authorization: Bearer {{auth_token}}
+
   
   

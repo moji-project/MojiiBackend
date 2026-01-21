@@ -1,7 +1,22 @@
 ﻿@BACK_URL = https://localhost:7171/api
 
 GET {{BACK_URL}}/Users
+Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
 GET {{BACK_URL}}/Users/1
+Authorization: Bearer {{auth_token}}
+
+
+###
+POST {{BACK_URL}}/Users
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "FirstName": "Azerty",
+  "LastName": "QWERTY",
+  "Email": "azerty@yopmail.com"
+}

@@ -17,7 +17,7 @@ public class Organization : BaseEntity
     public string? Address { get; set; }
     
     
-    public List<Filiere> Filieres { get; set; } = new List<Filiere>();
+    public List<Filiere> Filieres { get; set; } = [];
 
-    public List<User> Users { get; set; } = new List<User>();
+    public List<User> Users { get; set; } = [];
 }

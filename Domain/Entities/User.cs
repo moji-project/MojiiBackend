@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MojiiBackend.Domain.Enums;
 
 namespace MojiiBackend.Domain.Entities;
 
-[Index(nameof(Mail), IsUnique = true)]
-public class User : BaseEntity
+[Index(nameof(Email), IsUnique = true)]
+public class User : IdentityUser<int>
 {
     [Required]
     [MaxLength(50)]
@@ -14,13 +15,12 @@ public class User : BaseEntity
     [Required]
     [MaxLength(50)]
     public string LastName { get; set; } = string.Empty;
+    
+    public string FullName => $"{FirstName} {LastName}";
 
     [Required]
     [MaxLength(120)]
-    public string Mail { get; set; } = string.Empty;
-
-    [Required]
-    public UserRole UserRole { get; set; }
+    public override string Email { get; set; } = string.Empty;
 
     [MaxLength(500)]
     public string? Biography { get; set; }
@@ -42,15 +42,17 @@ public class User : BaseEntity
     public int FiliereId { get; set; }
     public Filiere Filiere { get; set; } = new Filiere();
     
-    public List<Post> CreatedPosts { get; set; } = new List<Post>();
-    public List<Post> LikedPosts { get; set; } = new List<Post>();
-    public List<Post> SavedPosts { get; set; } = new List<Post>();
+    public List<Post> CreatedPosts { get; set; } = [];
+    public List<Post> LikedPosts { get; set; } = [];
+    public List<Post> SavedPosts { get; set; } = [];
     
-    public List<Comment> Comments { get; set; } = new List<Comment>();
+    public List<Comment> Comments { get; set; } = [];
     
-    public List<Channel> Channels { get; set; } = new List<Channel>();
+    public List<Channel> Channels { get; set; } = [];
     
-    public List<Message> Messages { get; set; } = new List<Message>();
+    public List<Message> Messages { get; set; } = [];
     
-    public List<UserState> UserStates { get; set; } = new List<UserState>();
+    public List<UserState> UserStates { get; set; } = [];
+    
+    public List<RefreshToken> RefreshTokens { get; set; } = [];
 }

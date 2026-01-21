@@ -2,6 +2,7 @@
 
 
 POST {{BACK_URL}}/Comments
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {

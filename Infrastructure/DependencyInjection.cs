@@ -1,5 +1,6 @@
 ﻿using MojiiBackend.Application;
 using MojiiBackend.Application.Mappings;
+using MojiiBackend.Infrastructure.Authentication;
 using MojiiBackend.Infrastructure.Database;
 
 namespace MojiiBackend.Infrastructure;
@@ -12,6 +13,7 @@ public static class DependencyInjection
             .AddDatabase(configuration, environment)
             .AddRepositoryServices()
             .AddApplicationServices()
+            .RegisterAuthentication(configuration)
             .ConfigureMapster();
         
         return services;

@@ -2,14 +2,18 @@
 
 
 GET {{BACK_URL}}/Posts
+Authorization: Bearer {{auth_token}}
+
 
 
 ###
 GET {{BACK_URL}}/Posts/GetAllByIsThread/true
+Authorization: Bearer {{auth_token}}
 
 
 ###
 POST {{BACK_URL}}/Posts
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
@@ -21,4 +25,5 @@ Content-Type: application/json
 
 ###
 DELETE {{BACK_URL}}/Posts/1
+Authorization: Bearer {{auth_token}}
 

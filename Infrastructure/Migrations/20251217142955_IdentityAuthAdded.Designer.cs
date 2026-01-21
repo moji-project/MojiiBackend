@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MojiiBackend.Infrastructure.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MojiiBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251217142955_IdentityAuthAdded")]
+    partial class IdentityAuthAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +38,41 @@ namespace MojiiBackend.Infrastructure.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("ChannelUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "ADMIN_CONCURRENCY_STAMP",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "STUDENT_CONCURRENCY_STAMP",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -64,22 +102,6 @@ namespace MojiiBackend.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConcurrencyStamp = "ADMIN_CONCURRENCY_STAMP",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyStamp = "STUDENT_CONCURRENCY_STAMP",
-                            Name = "Student",
-                            NormalizedName = "STUDENT"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

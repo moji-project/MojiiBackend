@@ -1,7 +1,7 @@
 @BACK_URL = https://localhost:7171/api
 
-
 POST {{BACK_URL}}/Organizations
+Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
@@ -14,3 +14,4 @@ Content-Type: application/json
 
 ###
 GET {{BACK_URL}}/Organizations/1
+Authorization: Bearer {{auth_token}}
