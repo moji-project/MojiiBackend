@@ -18,12 +18,6 @@ public class PostService (PostRepository postRepository)
         var posts = await postRepository.GetAll();
         return posts.Adapt<List<PostDto>>();
     }
-
-    public async Task<List<PostDto>> GetAllPostsByIsThread(bool isThread)
-    {
-        var filteredPosts = await postRepository.GetAllPostsByIsThread(isThread);
-        return filteredPosts.Adapt<List<PostDto>>();
-    }
     
     public async Task DeletePost(int id)
     {

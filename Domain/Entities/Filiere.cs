@@ -13,7 +13,7 @@ public class Filiere : BaseEntity
         
     [Required]
     public int OrganizationId { get; set; }
-    public Organization Organization { get; set; } = new Organization();
+    public Organization Organization { get; set; } = new();
     
     public List<User> Users { get; set; } = [];
 }

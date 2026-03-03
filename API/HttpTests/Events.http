@@ -1,0 +1,6 @@
+﻿@BACK_URL = https://localhost:7171/api
+
+
+###
+GET {{BACK_URL}}/Events
+Authorization: Bearer {{auth_token}}

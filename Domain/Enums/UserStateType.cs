@@ -4,5 +4,4 @@ public enum UserStateType
 {
     Blocked, 
     Muted,
-    Reported
 }

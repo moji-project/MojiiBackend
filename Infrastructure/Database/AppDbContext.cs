@@ -17,6 +17,9 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<UserState> UserStates { get; set; }
     public DbSet<Filiere> Filieres { get; set; }
     public DbSet<Organization> Organizations { get; set; }
+    public DbSet<Event> Events { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+    public DbSet<Report> Reports { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -56,17 +59,17 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
             .WithMany(p => p.HavingLikedUsers)
             .UsingEntity(j => j.ToTable("PostLikes")); // Table de liaison nommée proprement
 
-        // User <-> Post (Saves)
-        modelBuilder.Entity<User>()
-            .HasMany(u => u.SavedPosts)
-            .WithMany(p => p.HavingSavedUsers)
-            .UsingEntity(j => j.ToTable("PostSaves"));
-
         // User <-> Channel (Members)
         modelBuilder.Entity<Channel>()
             .HasMany(c => c.Users)
             .WithMany(u => u.Channels)
             .UsingEntity(j => j.ToTable("ChannelUsers"));
+        
+        // User <-> Event (Interested)
+        modelBuilder.Entity<Event>()
+            .HasMany(e => e.InterestedUsers)
+            .WithMany(u => u.InterestingEvents)
+            .UsingEntity(j => j.ToTable("EventInterestedUsers"));
     }
     
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
@@ -85,8 +88,59 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
             .WithMany(f => f.Users)
             .HasForeignKey(u => u.FiliereId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        // --- EVENT --- //
+        // Si on supprime une organization, les événements liés sont supprimés
+        modelBuilder.Entity<Event>()
+            .HasOne(e => e.Organization)
+            .WithMany(o => o.Events)
+            .HasForeignKey(e => e.OrganizationId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        // --- MESSAGERIE ---
+        // Si on supprime un User school admin, les évènements créés ne sont pas supprimés
+        modelBuilder.Entity<Event>()
+            .HasOne(e => e.CreatorUser)
+            .WithMany()
+            .HasForeignKey(e => e.CreatorUserId)
+            .OnDelete(DeleteBehavior.Restrict); 
+        
+        // --- NOTIFICATION --- //
+        //Si on supprime un User, ses notifs sont supprimées avec
+        modelBuilder.Entity<Notification>()
+            .HasOne(n => n.User)
+            .WithMany(u => u.Notifications)
+            .HasForeignKey(n => n.UserId)
+            .OnDelete(DeleteBehavior.Cascade); 
+        
+        // --- REPORTS --- //
+        modelBuilder.Entity<Report>()
+            .HasOne(r => r.ReporterUser)
+            .WithMany() 
+            .HasForeignKey(r => r.ReporterUserId)
+            .OnDelete(DeleteBehavior.Restrict); // On ne supprime pas le report si l'user part
+        
+        // Report → TargetUser
+        modelBuilder.Entity<Report>()
+            .HasOne(r => r.TargetUser)
+            .WithMany()  // No navigation back from User (optional)
+            .HasForeignKey(r => r.TargetUserId)
+            .OnDelete(DeleteBehavior.Cascade); // If user is deleted, delete their reports
+
+        // Report → TargetPost
+        modelBuilder.Entity<Report>()
+            .HasOne(r => r.TargetPost)
+            .WithMany()
+            .HasForeignKey(r => r.TargetPostId)
+            .OnDelete(DeleteBehavior.Cascade); // If post is deleted, delete its reports
+
+        // Report → TargetComment
+        modelBuilder.Entity<Report>()
+            .HasOne(r => r.TargetComment)
+            .WithMany()
+            .HasForeignKey(r => r.TargetCommentId)
+            .OnDelete(DeleteBehavior.Cascade); // If comment is deleted, delete its reports
+        
+        // --- MESSAGERIE --- //
         // Si on supprime un Channel, on supprime les messages (Cascade par défaut, mais explicite c'est mieux)
         modelBuilder.Entity<Message>()
             .HasOne(m => m.Channel)
@@ -143,16 +197,23 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
             new IdentityRole<int>
             {
                 Id = 1,
-                Name = AppRoles.Admin,
-                NormalizedName = AppRoles.Admin.ToUpperInvariant(),
-                ConcurrencyStamp = "ADMIN_CONCURRENCY_STAMP"
+                Name = AppRoles.Student,
+                NormalizedName = AppRoles.Student.ToUpperInvariant(),
+                ConcurrencyStamp = "STUDENT_CONCURRENCY_STAMP"
             },
             new IdentityRole<int>
             {
                 Id = 2,
-                Name = AppRoles.Student,
-                NormalizedName = AppRoles.Student.ToUpperInvariant(),
-                ConcurrencyStamp = "STUDENT_CONCURRENCY_STAMP"
+                Name = AppRoles.SchoolAdmin,
+                NormalizedName = AppRoles.SchoolAdmin.ToUpperInvariant(),
+                ConcurrencyStamp = "SCHOOL_ADMIN_CONCURRENCY_STAMP"
+            },
+            new IdentityRole<int>
+            {
+                Id = 3,
+                Name = AppRoles.SuperAdmin,
+                NormalizedName = AppRoles.SuperAdmin.ToUpperInvariant(),
+                ConcurrencyStamp = "SUPER_ADMIN_CONCURRENCY_STAMP"
             }
         );
     }

@@ -20,4 +20,6 @@ public class Organization : BaseEntity
     public List<Filiere> Filieres { get; set; } = [];
 
     public List<User> Users { get; set; } = [];
+    
+    public List<Event> Events { get; set; } = [];
 }

@@ -10,9 +10,9 @@ public class Message : BaseEntity
     
     [Required]
     public int ChannelId { get; set; }
-    public Channel Channel { get; set; } = new Channel();
+    public Channel Channel { get; set; } = new();
     
     [Required]
     public int UserSenderId { get; set; }
-    public User UserSender { get; set; } = new User();
+    public User UserSender { get; set; } = new();
 }

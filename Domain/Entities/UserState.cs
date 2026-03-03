@@ -7,15 +7,12 @@ public class UserState : BaseEntity
 {
     [Required]
     public int InitiatorUserId { get; set; }
-    public User InitiatorUser { get; set; } = new User();
+    public User InitiatorUser { get; set; } = new();
 
     [Required]
     public int TargetedUserId { get; set; }
-    public User TargetedUser { get; set; } = new User();
+    public User TargetedUser { get; set; } = new();
 
     [Required]
     public UserStateType StateType { get; set; }
-
-    [MaxLength(500)]
-    public string? Comment { get; set; }
 }

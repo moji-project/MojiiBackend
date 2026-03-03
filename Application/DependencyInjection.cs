@@ -16,7 +16,10 @@ public static class DependencyInjection
             .AddScoped<FiliereRepository>()
             .AddScoped<ChannelRepository>()
             .AddScoped<CommentRepository>()
-            .AddScoped<RefreshTokenRepository>();
+            .AddScoped<RefreshTokenRepository>()
+            .AddScoped<EventRepository>()
+            .AddScoped<NotificationRepository>()
+            .AddScoped<ReportRepository>();
         
         return services;
     }
@@ -32,7 +35,10 @@ public static class DependencyInjection
             .AddScoped<CommentService>()
             .AddScoped<UserStateService>()
             .AddScoped<AuthService>()
-            .AddScoped<TokenService>();
+            .AddScoped<TokenService>()
+            .AddScoped<EventService>()
+            .AddScoped<NotificationService>()
+            .AddScoped<ReportService>();
         
         return services;
     }

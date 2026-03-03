@@ -36,15 +36,14 @@ public class User : IdentityUser<int>
     
     [Required]
     public int OrganizationId { get; set; }
-    public Organization Organization { get; set; } = new Organization();
+    public Organization Organization { get; set; } = new();
     
     [Required]
     public int FiliereId { get; set; }
-    public Filiere Filiere { get; set; } = new Filiere();
+    public Filiere Filiere { get; set; } = new();
     
     public List<Post> CreatedPosts { get; set; } = [];
     public List<Post> LikedPosts { get; set; } = [];
-    public List<Post> SavedPosts { get; set; } = [];
     
     public List<Comment> Comments { get; set; } = [];
     
@@ -52,7 +51,11 @@ public class User : IdentityUser<int>
     
     public List<Message> Messages { get; set; } = [];
     
+    public List<Notification> Notifications { get; set; } = []; 
+    
     public List<UserState> UserStates { get; set; } = [];
+    
+    public List<Event> InterestingEvents { get; set; } = [];
     
     public List<RefreshToken> RefreshTokens { get; set; } = [];
 }

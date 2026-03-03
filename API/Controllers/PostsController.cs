@@ -17,13 +17,6 @@ public class PostsController (PostService postService) : ControllerBase
         var posts = await postService.GetAllPosts();
         return Ok(posts);
     }
-
-    [HttpGet("GetAllByIsThread/{isThread:bool}")]
-    public async Task<ActionResult<PostDto>> GetAllPostsByIsThread(bool isThread)
-    {
-        var posts = await postService.GetAllPostsByIsThread(isThread);
-        return Ok(posts);
-    }
     
     [HttpPost]
     public async Task<ActionResult> CreatePost([FromBody] PostDto post)
