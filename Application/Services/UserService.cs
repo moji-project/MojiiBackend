@@ -53,4 +53,9 @@ public class UserService(UserManager<User> userManager)
         return createdUser.Adapt<UserDto>();
     
     }
+
+    public async Task<User?> GetUserEntityById(int userId)
+    {
+        return await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+    }
 }

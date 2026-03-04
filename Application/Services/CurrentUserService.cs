@@ -10,15 +10,8 @@ public interface ICurrentUserService
     string GetUserName();
 }
 
-public class CurrentUserService : ICurrentUserService
+public class CurrentUserService(IHttpContextAccessor _httpContextAccessor) : ICurrentUserService
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
-
     public int GetUserId()
     {
         var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

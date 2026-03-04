@@ -35,12 +35,8 @@ public class PostService (PostRepository postRepository, ICurrentUserService cur
         var hasLiked = post.HavingLikedUsers.Any(u => u.Id == userId);
 
         if (hasLiked)
-        {
             await postRepository.RemoveLike(postId, userId);
-        }
         else
-        {
             await postRepository.AddLike(postId, userId);
-        }
     }
 }

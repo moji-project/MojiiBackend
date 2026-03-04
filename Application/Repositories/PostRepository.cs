@@ -4,10 +4,9 @@ using MojiiBackend.Infrastructure.Database;
 
 namespace MojiiBackend.Application.Repositories;
 
-public class PostRepository : BaseCrudRepository<Post>
+public class PostRepository (AppDbContext context)
+    : BaseCrudRepository<Post>(context)
 {
-    public PostRepository(AppDbContext context) : base(context) {}
-    
     public override async Task<Post?> GetById(int id)
     {
         return await _dbSet

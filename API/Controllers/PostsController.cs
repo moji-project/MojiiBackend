@@ -32,8 +32,8 @@ public class PostsController (PostService postService) : ControllerBase
         return Ok();
     }
 
-    [HttpPost("ToggleLike")]
-    public async Task<ActionResult> ToggleLike([FromBody] int postId)
+    [HttpPost("ToggleLike/{postId}")]
+    public async Task<ActionResult> ToggleLike(int postId)
     {
         await postService.ToggleLike(postId);
         return Ok();
