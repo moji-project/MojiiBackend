@@ -17,10 +17,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+//Infrastructure/DependencyInjection.cs
+app.UseInfrastructure();
 
 await app.RunAsync();

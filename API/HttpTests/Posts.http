@@ -21,3 +21,13 @@ Content-Type: application/json
 DELETE {{BACK_URL}}/Posts/1
 Authorization: Bearer {{auth_token}}
 
+
+###
+# Toggle like on post (add like if not liked, remove if already liked)
+POST {{BACK_URL}}/Posts/ToggleLike
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+2
+
+

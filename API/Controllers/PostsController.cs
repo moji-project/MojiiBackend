@@ -31,5 +31,12 @@ public class PostsController (PostService postService) : ControllerBase
         await postService.DeletePost(postId);
         return Ok();
     }
+
+    [HttpPost("ToggleLike")]
+    public async Task<ActionResult> ToggleLike([FromBody] int postId)
+    {
+        await postService.ToggleLike(postId);
+        return Ok();
+    }
 }
 //todo dès que un admin d orga se connecte, comment l'app le détecte et lui renvoie son organozaation

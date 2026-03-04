@@ -18,4 +18,15 @@ public static class DependencyInjection
         
         return services;
     }
+
+    public static WebApplication UseInfrastructure(this WebApplication app)
+    {
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        return app;
+    }
 }

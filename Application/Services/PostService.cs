@@ -1,11 +1,11 @@
-﻿using Mapster;
+using Mapster;
 using MojiiBackend.Application.DTOs;
 using MojiiBackend.Application.Repositories;
 using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Application.Services;
 
-public class PostService (PostRepository postRepository)
+public class PostService (PostRepository postRepository, ICurrentUserService currentUserService)
 {
     public async Task CreatePost(PostDto postDto)
     {
@@ -22,5 +22,25 @@ public class PostService (PostRepository postRepository)
     public async Task DeletePost(int id)
     {
         await postRepository.Delete(id);
+    }
+
+    public async Task ToggleLike(int postId)
+    {
+        var userId = currentUserService.GetUserId();
+
+        var post = await postRepository.GetById(postId);
+        if (post == null)
+            throw new Exception("Post not found");
+
+        var hasLiked = post.HavingLikedUsers.Any(u => u.Id == userId);
+
+        if (hasLiked)
+        {
+            await postRepository.RemoveLike(postId, userId);
+        }
+        else
+        {
+            await postRepository.AddLike(postId, userId);
+        }
     }
 }

@@ -58,7 +58,8 @@ public static class AuthConfiguration
         
         
         services.AddTransient<JwtSecurityTokenHandler>();
-        
+        services.AddHttpContextAccessor();
+
         return services;
     }
 }

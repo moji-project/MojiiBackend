@@ -27,6 +27,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services
+            .AddScoped<ICurrentUserService, CurrentUserService>()
             .AddScoped<UserService>()
             .AddScoped<PostService>()
             .AddScoped<OrganizationService>()
@@ -39,7 +40,7 @@ public static class DependencyInjection
             .AddScoped<EventService>()
             .AddScoped<NotificationService>()
             .AddScoped<ReportService>();
-        
+
         return services;
     }
 }
