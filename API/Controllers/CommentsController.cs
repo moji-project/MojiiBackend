@@ -12,9 +12,23 @@ namespace MojiiBackend.API.Controllers;
 public class CommentsController (CommentService commentService) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult> CreateComment([FromBody] CommentDto comment)
+    public async Task<ActionResult> CreateComment([FromBody] CommentDto commentDto)
     {
-        await commentService.CreateComment(comment);
+        await commentService.CreateComment(commentDto);
+        return Ok();
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateComment([FromBody] CommentDto commentDto)
+    {
+        await commentService.UpdateComment(commentDto);
+        return Ok();
+    }
+
+    [HttpDelete("{commentId:int}")]
+    public async Task<ActionResult> DeleteComment(int commentId)
+    {
+        await commentService.DeleteComment(commentId);
         return Ok();
     }
 }

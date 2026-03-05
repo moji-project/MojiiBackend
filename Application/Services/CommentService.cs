@@ -12,4 +12,15 @@ public class CommentService (CommentRepository commentRepository)
         Comment comment = commentDto.Adapt<Comment>();
         await commentRepository.Create(comment);
     }
+
+    public async Task UpdateComment(CommentDto commentDto)
+    {
+        Comment comment = commentDto.Adapt<Comment>();
+        await  commentRepository.Update(comment);
+    }
+    
+    public async  Task DeleteComment(int commentId)
+    {
+        await commentRepository.Delete(commentId);
+    }
 }

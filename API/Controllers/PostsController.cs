@@ -17,6 +17,20 @@ public class PostsController (PostService postService) : ControllerBase
         var posts = await postService.GetAllPosts();
         return Ok(posts);
     }
+
+    [HttpGet("GetMostRecentWithSkip/{skip:int}")]
+    public async Task<ActionResult<List<PostDto>>> GetMostRecentWithSkip(int skip)
+    {
+        var posts = await postService.GetMostRecentWithSkip(skip);
+        return  Ok(posts);
+    }
+
+    [HttpGet("GetByUserId/{userId:int}")]
+    public async Task<ActionResult<List<PostDto>>> GetByUserId(int userId)
+    {
+        var posts = await postService.GetAllPostsByUserId(userId);
+        return  Ok(posts);
+    }
     
     [HttpPost]
     public async Task<ActionResult> CreatePost([FromBody] PostDto postDto)

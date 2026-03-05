@@ -7,16 +7,28 @@ namespace MojiiBackend.Application.Services;
 
 public class PostService (PostRepository postRepository, ICurrentUserService currentUserService)
 {
-    public async Task CreatePost(PostDto postDto)
-    {
-        Post post = postDto.Adapt<Post>();
-        await postRepository.Create(post);
-    }
-    
     public async Task<List<PostDto>> GetAllPosts()
     {
         var posts = await postRepository.GetAll();
         return posts.Adapt<List<PostDto>>();
+    }
+
+    public async Task<List<PostDto>> GetMostRecentWithSkip(int skip)
+    {
+        var posts = await  postRepository.GetMostRecentWithSkip(skip);
+        return  posts.Adapt<List<PostDto>>();
+    }
+
+    public async Task<List<PostDto>> GetAllPostsByUserId(int userId)
+    {
+        var posts = await  postRepository.GetMostRecentWithSkip(userId);
+        return  posts.Adapt<List<PostDto>>();
+    }
+    
+    public async Task CreatePost(PostDto postDto)
+    {
+        Post post = postDto.Adapt<Post>();
+        await postRepository.Create(post);
     }
 
     public async Task UpdatePost(PostDto postDto)

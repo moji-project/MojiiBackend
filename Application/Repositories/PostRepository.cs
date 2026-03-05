@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MojiiBackend.Application.DTOs;
 using MojiiBackend.Domain.Entities;
 using MojiiBackend.Infrastructure.Database;
 
@@ -7,11 +8,37 @@ namespace MojiiBackend.Application.Repositories;
 public class PostRepository (AppDbContext context)
     : BaseCrudRepository<Post>(context)
 {
+    public override async Task<List<Post>> GetAll()
+    {
+        return await _dbSet
+            .Include(p => p.HavingLikedUsers)
+            .OrderBy(p => p.CreatedAt)
+            .ToListAsync();
+    }
+
+    public async Task<List<Post>> GetMostRecentWithSkip(int skip)
+    {
+        return await _dbSet
+            .Skip(skip)
+            .Include(p => p.HavingLikedUsers)
+            .OrderBy(p => p.CreatedAt)
+            .ToListAsync();
+    }
+
     public override async Task<Post?> GetById(int id)
     {
         return await _dbSet
             .Include(p => p.HavingLikedUsers)
             .FirstAsync(p => p.Id == id);
+    }
+
+    public async Task<List<Post>> GetPostsByUserId(int userId)
+    {
+        return await _dbSet
+            .Where(p => p.UserId == userId)
+            .Include(p => p.HavingLikedUsers)
+            .OrderBy(p => p.CreatedAt)
+            .ToListAsync();
     }
 
     public async Task AddLike(int postId, int userId)

@@ -6,6 +6,16 @@ Authorization: Bearer {{auth_token}}
 
 
 ###
+GET {{BACK_URL}}/Posts/GetMostRecentWithSkip/10
+Authorization: Bearer {{auth_token}}
+
+
+###
+GET {{BACK_URL}}/Posts/GetByUserId/4
+Authorization: Bearer {{auth_token}}
+
+
+###
 POST {{BACK_URL}}/Posts
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json

@@ -10,3 +10,19 @@ Content-Type: application/json
   "postId": 2,
   "userId": 1
 }
+
+
+###
+PUT {{BACK_URL}}/Comments
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "content": "UPDATED comment from Comments.http",
+}
+
+
+###
+DELETE {{BACK_URL}}/Comments/2
+Authorization: Bearer {{auth_token}}
