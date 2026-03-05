@@ -19,9 +19,16 @@ public class PostsController (PostService postService) : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult> CreatePost([FromBody] PostDto post)
+    public async Task<ActionResult> CreatePost([FromBody] PostDto postDto)
     {
-        await postService.CreatePost(post);
+        await postService.CreatePost(postDto);
+        return Ok();
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdatePost([FromBody] PostDto postDto)
+    {
+        await postService.UpdatePost(postDto);
         return Ok();
     }
 

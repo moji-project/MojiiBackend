@@ -31,4 +31,18 @@ public class UsersController (UserService userService) : ControllerBase
         var createdUser = await userService.CreateUser(userDto);
         return Ok(createdUser);
     }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateConnectedUserInfos([FromBody] UserDto userDto)
+    {
+        await userService.UpdateConnectedUserInfos(userDto);
+        return Ok();
+    }
+
+    [HttpPatch("AffectUserToFiliere/{userId:int}/{filiereId:int}")]
+    public async Task<ActionResult> AffectUserToFiliere(int userId, int filiereId)
+    {
+        await userService.AffectUserToFiliere(userId, filiereId);
+        return Ok();
+    }
 }

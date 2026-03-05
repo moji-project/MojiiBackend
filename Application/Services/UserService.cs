@@ -8,7 +8,7 @@ using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Application.Services;
 
-public class UserService(UserManager<User> userManager)
+public class UserService(UserManager<User> userManager, CurrentUserService currentUserService, UserRepository userRepository)
 {
     public async Task<List<UserDto>> GetAllUsers()
     {
@@ -52,6 +52,23 @@ public class UserService(UserManager<User> userManager)
         
         return createdUser.Adapt<UserDto>();
     
+    }
+
+    public async Task UpdateConnectedUserInfos(UserDto userDto)
+    {
+        int connectedUserId = currentUserService.GetUserId();
+        User? connectedUser = await userRepository.GetById(connectedUserId);
+        
+        connectedUser?.Biography = userDto.Biography;
+        connectedUser?.ProfilePicUrl = userDto.ProfilePicUrl;
+
+        if (connectedUser is not null)
+            await userRepository.Update(connectedUser);
+    }
+
+    public async Task AffectUserToFiliere(int userId, int filiereId)
+    {
+        await userRepository.AffectUserToFiliere(userId, filiereId);
     }
 
     public async Task<User?> GetUserEntityById(int userId)

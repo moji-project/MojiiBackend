@@ -11,9 +11,19 @@ Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "isThread": true,
   "Content": "QSDSDFDS de AZEZAZERE post",
   "userId": 1
+}
+
+
+###
+PUT {{BACK_URL}}/Posts
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "id": 4,
+  "Content": "NOUVEAU CONTENU modifié"  
 }
 
 

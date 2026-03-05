@@ -2,7 +2,6 @@
 
 public class PostDto : BaseEntityDto
 {
-    public bool IsThread { get; set; }
     public string Content { get; set; } = string.Empty;
     public string? ImageUrl { get; set; }
     public int NbOfLikes { get; set; } = 0;

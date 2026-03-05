@@ -18,4 +18,10 @@ public class OrganizationService (OrganizationRepository organizationRepository)
         Organization? organization = await organizationRepository.GetById(organizationId);
         return organization.Adapt<OrganizationDto>();
     }
+
+    public async Task UpdateOrganization(OrganizationDto organizationDto)
+    {
+        Organization organization = organizationDto.Adapt<Organization>();
+        await  organizationRepository.Update(organization);
+    }
 }

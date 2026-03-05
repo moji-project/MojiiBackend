@@ -20,3 +20,22 @@ Content-Type: application/json
   "LastName": "QWERTY",
   "Email": "azerty@yopmail.com"
 }
+
+###
+PUT {{BACK_URL}}/Users
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "FirstName": "doesnt matter",
+  "LastName": "doesnt matter",
+  "Email": "doesnt matter",
+  "Biography": "new biography updated",
+  "ProfilePicUrl": "https://link.com"
+}
+
+###
+PATCH {{BACK_URL}}/Users/AffectUserToFiliere/1/2
+Authorization: Bearer {{auth_token}}
+Accept: application/json

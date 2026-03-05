@@ -1,5 +1,4 @@
 @BACK_URL = https://localhost:7171/api
-@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0IiwidW5pcXVlX25hbWUiOiJBemVydHlRV0VSVFkiLCJlbWFpbCI6ImF6ZXJ0eUB5b3BtYWlsLmNvbSIsImZpcnN0TmFtZSI6IkF6ZXJ0eSIsImxhc3ROYW1lIjoiUVdFUlRZIiwianRpIjoiODY2OTA1MDUtYWZjYS00MjY3LWIwYjItMzZhNTAxYTRmOTUxIiwiaWF0IjoxNzY5MDAwMzg1LCJuYmYiOjE3NjkwMDAzODUsImV4cCI6MTc2OTAwMTI4NX0.25CE6GOVL-GnEmFRscLyYeU4ss5lNsMios_QUVwCwu8
 
 POST {{BACK_URL}}/Filieres
 Authorization: Bearer {{auth_token}}
@@ -10,3 +9,26 @@ Content-Type: application/json
   "Niveau": "M2",
   "OrganizationId": 1
 }
+
+
+###
+GET {{BACK_URL}}/Filieres/GetAllByOrganization1
+Authorization: Bearer {{auth_token}}
+
+
+###
+PUT {{BACK_URL}}/Filieres
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "Id": 1,
+  "Intitule": "Informatique Updated",
+  "Niveau": "M2",
+  "OrganizationId": 1
+}
+
+
+###
+DELETE {{BACK_URL}}/Filieres/1
+Authorization: Bearer {{auth_token}}

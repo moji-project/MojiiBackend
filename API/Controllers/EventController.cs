@@ -28,7 +28,7 @@ public class EventController (EventService eventService) : ControllerBase
         return Ok(eventDto);
     }
 
-    [HttpGet("organization/{organizationId:int}")]
+    [HttpGet("GetAllByOrganization/{organizationId:int}")]
     public async Task<ActionResult<List<EventDto>>> GetAllByOrganization(int organizationId)
     {
         var events = await eventService.GetAllByOrganization(organizationId);

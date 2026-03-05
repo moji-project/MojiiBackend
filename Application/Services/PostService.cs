@@ -18,6 +18,12 @@ public class PostService (PostRepository postRepository, ICurrentUserService cur
         var posts = await postRepository.GetAll();
         return posts.Adapt<List<PostDto>>();
     }
+
+    public async Task UpdatePost(PostDto postDto)
+    {
+        Post post = postDto.Adapt<Post>();
+        await postRepository.Update(post);
+    }
     
     public async Task DeletePost(int id)
     {

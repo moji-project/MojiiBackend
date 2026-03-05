@@ -11,17 +11,24 @@ namespace MojiiBackend.API.Controllers;
 [Authorize]
 public class OrganizationsController (OrganizationService organizationService) : ControllerBase
 {
+    [HttpGet("{organizationId:int}")]
+    public async Task<ActionResult<OrganizationDto?>> GetOrganizationById(int organizationId)
+    {
+        var organization = await organizationService.GetOrganizationById(organizationId);
+        return Ok(organization);
+    }
+
     [HttpPost]
     public async Task<ActionResult> CreateOrganization([FromBody] OrganizationDto organizationDto)
     {
         await organizationService.CreateOrganization(organizationDto);
         return Ok();
     }
-    
-    [HttpGet("{organizationId:int}")]
-    public async Task<ActionResult<OrganizationDto?>> GetOrganizationById(int organizationId)
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateOrganization([FromBody] OrganizationDto organizationDto)
     {
-        var organization = await organizationService.GetOrganizationById(organizationId);
-        return Ok(organization);
+        await organizationService.UpdateOrganization(organizationDto);
+        return Ok();
     }
 }

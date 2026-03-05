@@ -1,1 +1,48 @@
 @BACK_URL = https://localhost:7171/api
+
+
+### Get user state by id
+GET {{BACK_URL}}/UserStates/1
+Authorization: Bearer {{auth_token}}
+
+
+### Create a new user state (Block a user)
+POST {{BACK_URL}}/UserStates
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "initiatorUserId": 1,
+  "targetedUserId": 2,
+  "userStateType": 0
+}
+
+
+### Create a new user state (Mute a user)
+POST {{BACK_URL}}/UserStates
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "initiatorUserId": 1,
+  "targetedUserId": 3,
+  "userStateType": 1
+}
+
+
+### Update an existing user state
+PUT {{BACK_URL}}/UserStates
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "initiatorUserId": 1,
+  "targetedUserId": 2,
+  "userStateType": 1
+}
+
+
+### Delete a user state
+DELETE {{BACK_URL}}/UserStates/1
+Authorization: Bearer {{auth_token}}
