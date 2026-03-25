@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using System.Security.Claims;
 using Mapster;
 using MapsterMapper;
@@ -7,10 +7,11 @@ using MojiiBackend.Application.DTOs;
 using MojiiBackend.Application.DTOs.Authentication;
 using MojiiBackend.Application.Shared;
 using MojiiBackend.Domain.Entities;
+using MojiiBackend.Infrastructure.Emailing;
 
 namespace MojiiBackend.Application.Services;
 
-public class AuthService(UserManager<User> _userManager, TokenService _tokenService)
+public class AuthService(UserManager<User> _userManager, TokenService _tokenService, EmailService _emailService)
 {
 
     /// <summary>
@@ -20,7 +21,7 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
     /// <param name="registerDto">The registration data (email and password).</param>
     /// <returns>An <see cref="AuthResponseDto"/> containing access and refresh tokens and user information.</returns>
     /// <exception cref="DataException">Thrown when the user is not found or already has a password set.</exception>
-    public async Task<AuthResponseDto> Register(RegisterDto registerDto)
+    public async Task Register(RegisterDto registerDto)
     {
         var user = await _userManager.FindByEmailAsync(registerDto.Email);
         if (user == null)
@@ -39,6 +40,31 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
             throw new DataException($"Failed to set password: {errors}");
         }
 
+        // Generate and store a 5-digit verification code
+        var code = new Random().Next(10000, 99999).ToString();
+        user.VerificationCode = code;
+        await _userManager.UpdateAsync(user);
+
+        // Send the confirmation email
+        await _emailService.SendConfirmationCodeAsync(user.Email!, user.FullName, code);
+    }
+    
+    public async Task<AuthResponseDto> VerifyCode(VerifyCodeDto dto)
+    {
+        var user = await _userManager.FindByEmailAsync(dto.Email);
+        if (user == null)
+            throw new DataException("User not found");
+
+        // 1. Vérifications du code
+        if (string.IsNullOrEmpty(user.VerificationCode) || user.VerificationCode != dto.Code)
+            throw new DataException("Invalid verification code");
+
+        // 2. Validation réussie ! On met à jour l'utilisateur
+        user.EmailConfirmed = true;
+        user.VerificationCode = null; // On nettoie le code
+        await _userManager.UpdateAsync(user);
+
+        // 3. On génère ENFIN les tokens (même logique que le Login)
         var roles = await _userManager.GetRolesAsync(user);
         var accessToken = _tokenService.GenerateAccessToken(user, roles);
         var refreshToken = await _tokenService.CreateRefreshToken(user.Id);
@@ -46,14 +72,12 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
         user.LastConnectionDate = DateTime.UtcNow;
         await _userManager.UpdateAsync(user);
 
-        var userDto = user.Adapt<UserDto>();
-
         return new AuthResponseDto
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken.Token,
             ExpiresAt = refreshToken.ExpiresAt,
-            User = userDto
+            User = user.Adapt<UserDto>()
         };
     }
 
@@ -69,10 +93,11 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
     {
         var user = await _userManager.FindByEmailAsync(loginDto.Email);
         if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
-            throw new DataException("In"); // InvalidCredentialsException();
+            throw new DataException("Invalid credentials");
 
-       // if (!user.IsActive)
-        //    throw new UserNotActiveException();
+        // Block login if email has not been confirmed
+        if (!user.EmailConfirmed)
+            throw new DataException("Email not confirmed. Please verify your email before logging in.");
 
         var roles = await _userManager.GetRolesAsync(user);
         var accessToken = _tokenService.GenerateAccessToken(user, roles);
@@ -82,7 +107,6 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
         await _userManager.UpdateAsync(user);
 
         var userDto = user.Adapt<UserDto>();
-        //userDto.Roles = roles;
 
         return new AuthResponseDto
         {

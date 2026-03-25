@@ -40,7 +40,7 @@ public class EventRepository (AppDbContext context)
     {
         var user = await _context.Users.FindAsync(userId);
 
-        if (!eventEntity.InterestedUsers.Any(u => u.Id == userId))
+        if (!eventEntity.InterestedUsers.Any(u => u.Id == userId) && user is not null)
         {
             eventEntity.InterestedUsers.Add(user);
             await _context.SaveChangesAsync();

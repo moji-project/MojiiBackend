@@ -5,8 +5,19 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "Email": "azerty@yopmail.com",
-    "Password": "Azertyui12&"
+    "Email": "anis.benjemia@ynov.com",
+    "Password": "Azerty123"
+}
+
+
+###
+POST {{BACK_URL}}/Auth/VerifyCode
+Accept: application/json
+Content-Type: application/json
+
+{
+    "Email": "anis.benjemia@ynov.com",
+    "Code": "10646"
 }
 
 > {%
@@ -21,8 +32,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "Email": "azerty@yopmail.com",
-    "Password": "Azertyui12&"
+    "Email": "anis.benjemia@ynov.com",
+    "Password": "Azerty123"
 }
 
 > {%

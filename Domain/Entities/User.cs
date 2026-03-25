@@ -38,6 +38,9 @@ public class User : IdentityUser<int>
     public int OrganizationId { get; set; }
     public Organization Organization { get; set; } = new();
     
+    [MaxLength(5)]
+    public string? VerificationCode { get; set; }
+    
     [Required]
     public int FiliereId { get; set; }
     public Filiere Filiere { get; set; } = new();

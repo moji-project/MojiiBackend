@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -12,15 +12,26 @@ namespace MojiiBackend.API.Controllers;
 [Route("api/[controller]")]
 public class AuthController (AuthService _authService) : ControllerBase
 {
-    /// <returns>An authentication response with access and refresh tokens.</returns>
+    /// <returns>A confirmation that the verification email was sent.</returns>
     [HttpPost("register")]
+    [AllowAnonymous]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(409)]
+    public async Task<ActionResult> Register([FromBody] RegisterDto registerDto)
+    {
+        await _authService.Register(registerDto);
+        return Ok(new { message = "A verification code has been sent to your email address." });
+    }
+
+    /// <returns>An authentication response with access and refresh tokens.</returns>
+    [HttpPost("VerifyCode")]
     [AllowAnonymous]
     [ProducesResponseType(200, Type = typeof(AuthResponseDto))]
     [ProducesResponseType(400)]
-    [ProducesResponseType(409)]
-    public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterDto registerDto)
+    public async Task<ActionResult<AuthResponseDto>> VerifyCode([FromBody] VerifyCodeDto verifyCodeDto)
     {
-        var result = await _authService.Register(registerDto);
+        var result = await _authService.VerifyCode(verifyCodeDto);
         return Ok(result);
     }
 

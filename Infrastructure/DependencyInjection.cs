@@ -2,6 +2,7 @@
 using MojiiBackend.Application.Mappings;
 using MojiiBackend.Infrastructure.Authentication;
 using MojiiBackend.Infrastructure.Database;
+using MojiiBackend.Infrastructure.Emailing;
 
 namespace MojiiBackend.Infrastructure;
 
@@ -13,6 +14,7 @@ public static class DependencyInjection
             .AddDatabase(configuration, environment)
             .AddRepositoryServices()
             .AddApplicationServices()
+            .AddScoped<EmailService>()
             .RegisterAuthentication(configuration)
             .ConfigureMapster();
         
