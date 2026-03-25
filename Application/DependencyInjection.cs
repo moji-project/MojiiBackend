@@ -19,7 +19,8 @@ public static class DependencyInjection
             .AddScoped<RefreshTokenRepository>()
             .AddScoped<EventRepository>()
             .AddScoped<NotificationRepository>()
-            .AddScoped<ReportRepository>();
+            .AddScoped<ReportRepository>()
+            .AddScoped<UserRepository>();
         
         return services;
     }

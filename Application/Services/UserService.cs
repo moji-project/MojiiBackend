@@ -8,7 +8,7 @@ using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Application.Services;
 
-public class UserService(UserManager<User> userManager, CurrentUserService currentUserService, UserRepository userRepository)
+public class UserService(UserManager<User> userManager, ICurrentUserService currentUserService, UserRepository userRepository)
 {
     public async Task<List<UserDto>> GetAllUsers()
     {
