@@ -181,13 +181,23 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+        var entries = ChangeTracker
+            .Entries<BaseEntity>()
+            .Where(e => e.State is EntityState.Added or EntityState.Modified);
+
+        foreach (var entityEntry in entries)
         {
-            if (entry.State == EntityState.Modified)
+            // On s'assure que la date est bien en UTC (crucial pour PostgreSQL)
+            var now = DateTime.UtcNow;
+
+            if (entityEntry.State == EntityState.Added)
             {
-                entry.Entity.UpdatedAt = DateTime.UtcNow;
+                entityEntry.Entity.CreatedAt = now;
             }
+        
+            entityEntry.Entity.UpdatedAt = now;
         }
+
         return base.SaveChangesAsync(cancellationToken);
     }
 
