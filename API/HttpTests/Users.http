@@ -5,6 +5,11 @@ Authorization: Bearer {{auth_token}}
 Accept: application/json
 
 ###
+GET {{BACK_URL}}/Users/GetAllUsersByOrganization/1
+Authorization: Bearer {{auth_token}}
+Accept: application/json
+
+###
 GET {{BACK_URL}}/Users/1
 Authorization: Bearer {{auth_token}}
 

@@ -11,7 +11,7 @@ namespace MojiiBackend.API.Controllers;
 [Authorize]
 public class FilieresController (FiliereService filiereService) : ControllerBase
 {
-    [HttpGet("GetAllByOrganization{organizationId}")]
+    [HttpGet("GetAllByOrganization/{organizationId:int}")]
     public async Task<ActionResult<List<FiliereDto>>> GetAllByOrganization(int organizationId)
     {
         var filieres = await filiereService.GetAllByOrganization(organizationId);

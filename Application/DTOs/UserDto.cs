@@ -12,4 +12,13 @@ public class UserDto : BaseEntityDto
     public string? ProfilePicUrl { get; set; }
     public bool IsConnected { get; set; }
     public DateTime? LastConnectionDate { get; set; }
+    
+    public int OrganizationId { get; set; } 
+    public OrganizationDto? Organization { get; set; }
+    
+    public int FiliereId { get; set; }
+    public FiliereDto? Filiere { get; set; }
+
+    public List<PostDto>? CreatedPosts { get; set; } = [];
+    public List<UserStateDto>? UserStates { get; set; } = [];
 }

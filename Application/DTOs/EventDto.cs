@@ -12,4 +12,6 @@ public class EventDto : BaseEntityDto
 
     public OrganizationDto? Organization { get; set; }
     public UserDto? CreatorUser { get; set; }
+
+    public List<UserDto>? InterestedUsers { get; set; } = [];
 }

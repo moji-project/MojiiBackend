@@ -16,6 +16,12 @@ public class UserService(UserManager<User> userManager, ICurrentUserService curr
         return users.Adapt<List<UserDto>>();
     }
 
+    public async Task<List<UserDto>> GetAllUsersByOrganization(int organizationId)
+    {
+        var usersOfOrganization = await userRepository.GetAllUsersByOrganization(organizationId);
+        return usersOfOrganization.Adapt<List<UserDto>>();
+    }
+
     public async Task<UserDto> GetUserById(int userId)
     {
         var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);

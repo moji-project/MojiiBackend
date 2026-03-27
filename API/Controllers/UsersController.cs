@@ -17,6 +17,13 @@ public class UsersController (UserService userService) : ControllerBase
         var users = await userService.GetAllUsers();
         return Ok(users);
     }
+    
+    [HttpGet("GetAllUsersByOrganization/{organizationId:int}")]
+    public async Task<ActionResult<List<UserDto>>> GetAllUsersByOrganization(int organizationId)
+    {
+        var users = await userService.GetAllUsersByOrganization(organizationId);
+        return Ok(users);
+    }
 
     [HttpGet("{userId}")]
     public async Task<ActionResult<UserDto>> GetUserById(int userId)

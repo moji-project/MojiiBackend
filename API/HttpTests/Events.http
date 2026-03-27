@@ -26,8 +26,8 @@ Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "name": "Tech Conference 2026",
-  "startDate": "2026-06-15T09:00:00Z",
+  "name": "EVENEMENT YNOV",
+  "startDate": "2026-08-15T09:00:00Z",
   "imageUrl": "https://example.com/event-image.jpg",
   "isPublished": true,
   "organizationId": 1

@@ -12,7 +12,7 @@ Content-Type: application/json
 
 
 ###
-GET {{BACK_URL}}/Filieres/GetAllByOrganization1
+GET {{BACK_URL}}/Filieres/GetAllByOrganization/1
 Authorization: Bearer {{auth_token}}
 
 

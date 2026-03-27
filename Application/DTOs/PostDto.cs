@@ -12,4 +12,6 @@ public class PostDto : BaseEntityDto
     public UserDto? User { get; set; }
     
     public List<CommentDto>? Comments { get; set; } = [];
+
+    public List<UserDto>? HavingLikedUsers { get; set; } = [];
 }
