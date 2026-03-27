@@ -9,12 +9,14 @@ public class Comment : BaseEntity
     
     public int NbOfLikes { get; set; } = 0;
     
-    
+
     [Required]
-    public int PostId { get; set; }
-    public Post Post { get; set; } = new();
-    
-    [Required]
-    public  int UserId { get; set; }
+    public int UserId { get; set; }
     public User User { get; set; } = new();
+
+    public int? PostId { get; set; }
+    public Post? Post { get; set; } = new();
+    
+    public int? EventId { get; set; }
+    public Event? Event { get; set; }
 }

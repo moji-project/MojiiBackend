@@ -6,10 +6,23 @@ Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "content": "This is a test comment from Comments.http",
+  "content": "This is a test post comment from Comments.http",
   "postId": 2,
   "userId": 1
 }
+
+
+###
+POST {{BACK_URL}}/Comments
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "content": "This is a test post comment from Comments.http",
+  "eventId": 2,
+  "userId": 1
+}
+
 
 
 ###
@@ -19,7 +32,7 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "content": "UPDATED comment from Comments.http",
+  "content": "UPDATED comment from Comments.http"
 }
 
 
