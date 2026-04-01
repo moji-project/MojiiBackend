@@ -20,7 +20,9 @@ public class User : IdentityUser<int>
 
     [Required]
     [MaxLength(120)]
+#pragma warning disable CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
     public override string Email { get; set; } = string.Empty;
+#pragma warning restore CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
 
     [MaxLength(500)]
     public string? Biography { get; set; }

@@ -136,7 +136,9 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
         if (!isValidRefreshToken)
             throw new DataException("Invalid refresh token"); // InvalidRefreshTokenException();
 
-        var user = await _userManager.FindByIdAsync(userId); 
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user is null)
+            throw new DataException("Erreur lors de la récupération de l'utilisateur");
         //if (user is not { IsActive: true })
         //    throw new DataException("User account is not active"); // UserNotActiveException();
 
