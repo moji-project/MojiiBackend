@@ -23,3 +23,6 @@ out/
 *.sln.docstates
 *.sln.cache 
 *.sln.DotSettings.user  
+
+./appsettings.Development.json
+appsettings.Development.json
