@@ -19,6 +19,8 @@ public class UserDto : BaseEntityDto
     public int FiliereId { get; set; }
     public FiliereDto? Filiere { get; set; }
 
+    /*  Pourrait  créer des bugs de référence circulaire
     public List<PostDto>? CreatedPosts { get; set; } = [];
     public List<UserStateDto>? UserStates { get; set; } = [];
+    */
 }
