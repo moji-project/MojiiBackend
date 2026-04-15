@@ -49,4 +49,17 @@ Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 
+###
+POST {{BACK_URL}}/Posts/UploadPostImage/5
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="ImagePost2.png"
+Content-Type: image/png
+
+# Remplacer le chemin
+< C:\Users\Anis\Pictures\Bassem.png
+--WebAppBoundary--
+
 

@@ -27,7 +27,14 @@ public static class DependencyInjection
 
         app.UseAuthorization();
 
+        app.UseStaticFiles();
+
         app.MapControllers();
+        app.UseCors(policy => 
+            policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+        );
 
         return app;
     }

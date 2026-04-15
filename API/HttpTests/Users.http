@@ -46,3 +46,17 @@ Content-Type: application/json
 PATCH {{BACK_URL}}/Users/AffectUserToFiliere/1/2
 Authorization: Bearer {{auth_token}}
 Accept: application/json
+
+
+###
+POST {{BACK_URL}}/Users/UpdateProfilePicture/1
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="ProfilePicture.png"
+Content-Type: image/png
+
+# Remplacer le chemin
+< C:\Users\Anis\Pictures\Bassem.png 
+--WebAppBoundary--

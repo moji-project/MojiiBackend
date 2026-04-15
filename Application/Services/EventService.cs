@@ -5,7 +5,7 @@ using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Application.Services;
 
-public class EventService (EventRepository eventRepository, ICurrentUserService currentUserService)
+public class EventService (EventRepository eventRepository, ICurrentUserService currentUserService, ImageService imageService)
 {
     public async Task<List<EventDto>> GetAllByOrganization(int organizationId)
     {
@@ -70,5 +70,19 @@ public class EventService (EventRepository eventRepository, ICurrentUserService 
             await eventRepository.RemoveInterested(eventEntity, userId);
         else
             await eventRepository.AddInterested(eventEntity, userId);
+    }
+
+    public async Task<string> UploadImageAsync(int eventId, IFormFile file)
+    {
+        var eventEntity = await eventRepository.GetById(eventId);
+        if (eventEntity == null)
+            throw new Exception("Event not found");
+
+        var imageUrl = await imageService.SaveImageAsync(file);
+        eventEntity.ImageUrl = imageUrl;
+        
+        await eventRepository.Update(eventEntity);
+        
+        return imageUrl;
     }
 }

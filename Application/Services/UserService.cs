@@ -8,7 +8,7 @@ using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Application.Services;
 
-public class UserService(UserManager<User> userManager, ICurrentUserService currentUserService, UserRepository userRepository)
+public class UserService(UserManager<User> userManager, ICurrentUserService currentUserService, UserRepository userRepository, ImageService imageService)
 {
     public async Task<List<UserDto>> GetAllUsers()
     {
@@ -68,7 +68,6 @@ public class UserService(UserManager<User> userManager, ICurrentUserService curr
         User? connectedUser = await userRepository.GetById(connectedUserId);
         
         connectedUser?.Biography = userDto.Biography;
-        connectedUser?.ProfilePicUrl = userDto.ProfilePicUrl;
 
         if (connectedUser is not null)
             await userRepository.Update(connectedUser);
@@ -82,5 +81,19 @@ public class UserService(UserManager<User> userManager, ICurrentUserService curr
     public async Task<User?> GetUserEntityById(int userId)
     {
         return await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+    }
+
+    public async Task<string> UploadProfilePictureAsync(int userId, IFormFile file)
+    {
+        var user = await userRepository.GetById(userId);
+        if (user == null)
+            throw new Exception("User not found");
+
+        var imageUrl = await imageService.SaveImageAsync(file);
+        user.ProfilePicUrl = imageUrl;
+        
+        await userRepository.Update(user);
+        
+        return imageUrl;
     }
 }

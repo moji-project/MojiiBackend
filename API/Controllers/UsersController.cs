@@ -52,4 +52,11 @@ public class UsersController (UserService userService) : ControllerBase
         await userService.AffectUserToFiliere(userId, filiereId);
         return Ok();
     }
+
+    [HttpPost("UpdateProfilePicture/{userId:int}")]
+    public async Task<ActionResult<string>> UploadProfilePicture(int userId, [FromForm] IFormFile file)
+    {
+        var imageUrl = await userService.UploadProfilePictureAsync(userId, file);
+        return Ok(new { Url = imageUrl });
+    }
 }

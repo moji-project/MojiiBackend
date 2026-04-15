@@ -40,7 +40,8 @@ public static class DependencyInjection
             .AddScoped<TokenService>()
             .AddScoped<EventService>()
             .AddScoped<NotificationService>()
-            .AddScoped<ReportService>();
+            .AddScoped<ReportService>()
+            .AddScoped<ImageService>();
 
         return services;
     }

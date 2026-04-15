@@ -62,4 +62,11 @@ public class EventController (EventService eventService) : ControllerBase
         await eventService.ToggleInterested(eventId);
         return Ok();
     }
+
+    [HttpPost("UploadEventImage/{eventId:int}")]
+    public async Task<ActionResult<string>> UploadEventImage(int eventId, [FromForm] IFormFile file)
+    {
+        var imageUrl = await eventService.UploadImageAsync(eventId, file);
+        return Ok(new { Url = imageUrl });
+    }
 }

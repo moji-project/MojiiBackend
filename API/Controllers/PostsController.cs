@@ -59,5 +59,12 @@ public class PostsController (PostService postService) : ControllerBase
         await postService.ToggleLike(postId);
         return Ok();
     }
+
+    [HttpPost("UploadPostImage/{postId:int}")]
+    public async Task<ActionResult<string>> UploadPostImage(int postId, [FromForm] IFormFile file)
+    {
+        var imageUrl = await postService.UploadImageAsync(postId, file);
+        return Ok(new { Url = imageUrl });
+    }
 }
 //todo dès que un admin d orga se connecte, comment l'app le détecte et lui renvoie son organozaation

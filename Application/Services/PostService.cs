@@ -5,7 +5,7 @@ using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Application.Services;
 
-public class PostService (PostRepository postRepository, ICurrentUserService currentUserService)
+public class PostService (PostRepository postRepository, ICurrentUserService currentUserService, ImageService imageService)
 {
     public async Task<List<PostDto>> GetAllPosts()
     {
@@ -56,5 +56,19 @@ public class PostService (PostRepository postRepository, ICurrentUserService cur
             await postRepository.RemoveLike(postId, userId);
         else
             await postRepository.AddLike(postId, userId);
+    }
+
+    public async Task<string> UploadImageAsync(int postId, IFormFile file)
+    {
+        var post = await postRepository.GetById(postId);
+        if (post == null)
+            throw new Exception("Post not found");
+
+        var imageUrl = await imageService.SaveImageAsync(file);
+        post.ImageUrl = imageUrl;
+        
+        await postRepository.Update(post);
+        
+        return imageUrl;
     }
 }

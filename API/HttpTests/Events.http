@@ -60,3 +60,18 @@ Authorization: Bearer {{auth_token}}
 POST {{BACK_URL}}/Event/toggle-interested/1
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
+
+
+
+###
+POST {{BACK_URL}}/Users/UpdateProfilePicture/1
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="ImageEvenement.png"
+Content-Type: image/png
+
+# Remplacer le chemin
+< C:\Users\Anis\Pictures\Bassem.png
+--WebAppBoundary--
