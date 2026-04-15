@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +35,9 @@ public class UserService(UserManager<User> userManager, ICurrentUserService curr
             FirstName = userDto.FirstName,
             LastName = userDto.LastName,
             Email = userDto.Email,
-            UserName = userDto.FirstName + userDto.LastName.ToUpper() // IMPORTANT: UserName is required for Identity
+            UserName = userDto.FirstName + userDto.LastName.ToUpper(), // IMPORTANT: UserName is required for Identity
+            OrganizationId = userDto.OrganizationId, // Tu les avais oubliés !
+            FiliereId = userDto.FiliereId
         };
     
         IdentityResult result;

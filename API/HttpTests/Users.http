@@ -21,9 +21,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "FirstName": "Azerty",
-  "LastName": "QWERTY",
-  "Email": "azerty@yopmail.com"
+  "FirstName": "AZAZAZ",
+  "LastName": "DEDEDE",
+  "Email": "qsdqsd@gmail.com",
+  "OrganizationId": 1,
+  "FiliereId": 1
 }
 
 ###
