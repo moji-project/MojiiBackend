@@ -151,16 +151,16 @@ namespace MojiiBackend.Infrastructure.Migrations
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: 1,
+                keyValue: 2,
                 columns: new[] { "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "STUDENT_CONCURRENCY_STAMP", "Student", "STUDENT" });
+                values: new object[] { "SCHOOL_ADMIN_CONCURRENCY_STAMP", "SchoolAdmin", "SCHOOLADMIN" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: 2,
+                keyValue: 1,
                 columns: new[] { "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "SCHOOL_ADMIN_CONCURRENCY_STAMP", "SchoolAdmin", "SCHOOLADMIN" });
+                values: new object[] { "STUDENT_CONCURRENCY_STAMP", "Student", "STUDENT" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",

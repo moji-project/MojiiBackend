@@ -168,11 +168,9 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
     /// </summary>
     /// <param name="userId">The unique identifier of the user.</param>
     /// <returns><c>true</c> if logout succeeded, otherwise <c>false</c>.</returns>
-    /*
     public async Task<bool> Logout(int userId)
     {
         await _tokenService.RevokeAllUserRefreshTokens(userId);
         return true;
     }
-    */
 }

@@ -1,10 +1,8 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MojiiBackend.Application.DTOs.Authentication;
 using MojiiBackend.Application.Services;
-using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.API.Controllers;
 
@@ -65,19 +63,17 @@ public class AuthController (AuthService _authService) : ControllerBase
     /// Logs out the current user by revoking all their refresh tokens.
     /// </summary>
     /// <returns>A success message indicating the user has been logged out.</returns>
-    /*
     [HttpPost("logout")]
     [Authorize]
     [ProducesResponseType(200)]
     [ProducesResponseType(401)]
     public async Task<ActionResult> Logout()
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(userId))
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!int.TryParse(userIdClaim, out var userId))
             return Unauthorized();
 
         await _authService.Logout(userId);
-        return Ok(new { message = "Déconnexion réussie" });
+        return Ok(new { message = "Deconnexion reussie" });
     }
-    */
 }
