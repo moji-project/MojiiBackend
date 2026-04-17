@@ -7,6 +7,15 @@ namespace MojiiBackend.Application.Repositories;
 public class UserRepository(AppDbContext context)
     : BaseCrudRepository<User>(context)
 {
+    public async Task<List<User>> GetAllWithRelations()
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Include(u => u.Organization)
+            .Include(u => u.Filiere)
+            .ToListAsync();
+    }
+
     public async Task<List<User>> GetAllUsersByOrganization(int organizationId)
     {
         return await _dbSet.AsNoTracking()

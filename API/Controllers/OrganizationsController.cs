@@ -9,7 +9,7 @@ namespace MojiiBackend.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class OrganizationsController (OrganizationService organizationService) : ControllerBase
+public class OrganizationsController (OrganizationService organizationService, RealtimeService realtimeService) : ControllerBase
 {
     [HttpGet("{organizationId:int}")]
     public async Task<ActionResult<OrganizationDto?>> GetOrganizationById(int organizationId)
@@ -22,6 +22,7 @@ public class OrganizationsController (OrganizationService organizationService) :
     public async Task<ActionResult> CreateOrganization([FromBody] OrganizationDto organizationDto)
     {
         await organizationService.CreateOrganization(organizationDto);
+        await realtimeService.BroadcastEntityChanged("Organization", "Created", organizationDto);
         return Ok();
     }
 
@@ -29,6 +30,7 @@ public class OrganizationsController (OrganizationService organizationService) :
     public async Task<ActionResult> UpdateOrganization([FromBody] OrganizationDto organizationDto)
     {
         await organizationService.UpdateOrganization(organizationDto);
+        await realtimeService.BroadcastEntityChanged("Organization", "Updated", organizationDto);
         return Ok();
     }
 }

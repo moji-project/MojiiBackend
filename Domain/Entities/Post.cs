@@ -7,8 +7,7 @@ public class Post : BaseEntity
     [Required, MaxLength(500)]
     public string Content { get; set; } = string.Empty;
     
-    [MaxLength(500)]
-    public string? ImageUrl { get; set; }
+    public string[] ImageUrls { get; set; } = [];
     
     public int NbOfLikes { get; set; } = 0;
     public int NbOfReports { get; set; } = 0;

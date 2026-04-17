@@ -1,6 +1,17 @@
 @BACK_URL = https://localhost:7171/api
 
 
+###
+GET {{BACK_URL}}/Comments?postId=2
+Authorization: Bearer {{auth_token}}
+
+
+###
+GET {{BACK_URL}}/Comments?eventId=2
+Authorization: Bearer {{auth_token}}
+
+
+###
 POST {{BACK_URL}}/Comments
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
@@ -18,11 +29,10 @@ Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "content": "This is a test post comment from Comments.http",
+  "content": "This is a test event comment from Comments.http",
   "eventId": 2,
   "userId": 1
 }
-
 
 
 ###

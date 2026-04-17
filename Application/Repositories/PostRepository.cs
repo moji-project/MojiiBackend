@@ -1,44 +1,64 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MojiiBackend.Application.DTOs;
+using Microsoft.EntityFrameworkCore;
 using MojiiBackend.Domain.Entities;
 using MojiiBackend.Infrastructure.Database;
 
 namespace MojiiBackend.Application.Repositories;
 
-public class PostRepository (AppDbContext context)
+public class PostRepository(AppDbContext context)
     : BaseCrudRepository<Post>(context)
 {
+    private IQueryable<Post> BuildFeedQuery()
+    {
+        return _dbSet
+            .AsNoTracking()
+            .Include(p => p.User)
+            .ThenInclude(u => u.Organization)
+            .Include(p => p.User)
+            .ThenInclude(u => u.Filiere)
+            .Include(p => p.HavingLikedUsers)
+            .ThenInclude(u => u.Organization)
+            .Include(p => p.HavingLikedUsers)
+            .ThenInclude(u => u.Filiere)
+            .Include(p => p.Comments)
+            .ThenInclude(c => c.User)
+            .ThenInclude(u => u.Organization)
+            .Include(p => p.Comments)
+            .ThenInclude(c => c.User)
+            .ThenInclude(u => u.Filiere);
+    }
+
     public override async Task<List<Post>> GetAll()
     {
-        return await _dbSet
-            .Include(p => p.HavingLikedUsers)
-            .OrderBy(p => p.CreatedAt)
+        return await BuildFeedQuery()
+            .OrderByDescending(p => p.CreatedAt)
             .ToListAsync();
     }
 
     public async Task<List<Post>> GetMostRecentWithSkip(int skip)
     {
-        return await _dbSet
+        return await BuildFeedQuery()
+            .OrderByDescending(p => p.CreatedAt)
             .Skip(skip)
-            .Include(p => p.HavingLikedUsers)
-            .OrderBy(p => p.CreatedAt)
             .ToListAsync();
     }
 
     public override async Task<Post?> GetById(int id)
     {
-        return await _dbSet
-            .Include(p => p.HavingLikedUsers)
-            .FirstAsync(p => p.Id == id);
+        return await BuildFeedQuery()
+            .FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<List<Post>> GetPostsByUserId(int userId)
     {
-        return await _dbSet
+        return await BuildFeedQuery()
             .Where(p => p.UserId == userId)
-            .Include(p => p.HavingLikedUsers)
-            .OrderBy(p => p.CreatedAt)
+            .OrderByDescending(p => p.CreatedAt)
             .ToListAsync();
+    }
+
+    public async Task<Post?> GetByIdForUpdate(int id)
+    {
+        return await _dbSet.FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task AddLike(int postId, int userId)

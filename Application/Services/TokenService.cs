@@ -20,6 +20,8 @@ public class TokenService (IConfiguration _configuration, JwtSecurityTokenHandle
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
         var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+        var issuer = jwtSettings["Issuer"];
+        var audience = jwtSettings["Audience"];
 
         var claims = new List<Claim>
         {
@@ -44,8 +46,8 @@ public class TokenService (IConfiguration _configuration, JwtSecurityTokenHandle
         {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMinutes(int.Parse(jwtSettings["AccessTokenExpiration"]!)),
-            Issuer = jwtSettings["Issuer"],
-            Audience = jwtSettings["Audience"],
+            Issuer = string.IsNullOrWhiteSpace(issuer) ? null : issuer,
+            Audience = string.IsNullOrWhiteSpace(audience) ? null : audience,
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
@@ -78,15 +80,19 @@ public class TokenService (IConfiguration _configuration, JwtSecurityTokenHandle
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
         var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+        var issuer = jwtSettings["Issuer"];
+        var audience = jwtSettings["Audience"];
+        var hasIssuer = !string.IsNullOrWhiteSpace(issuer);
+        var hasAudience = !string.IsNullOrWhiteSpace(audience);
 
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = true,
-            ValidIssuer = jwtSettings["Issuer"],
-            ValidateAudience = true,
-            ValidAudience = jwtSettings["Audience"],
+            ValidateIssuer = hasIssuer,
+            ValidIssuer = hasIssuer ? issuer : null,
+            ValidateAudience = hasAudience,
+            ValidAudience = hasAudience ? audience : null,
             ValidateLifetime = false // Important : on ne valide pas l'expiration ici
         };
 

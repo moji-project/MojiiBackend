@@ -5,7 +5,7 @@ using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Application.Services;
 
-public class UserStateService (UserStateRepository userStateRepository)
+public class UserStateService(UserStateRepository userStateRepository, ICurrentUserService currentUserService)
 {
     public async Task<UserStateDto?> GetUserStateById(int id)
     {
@@ -28,5 +28,20 @@ public class UserStateService (UserStateRepository userStateRepository)
     public async Task DeleteUserState(int id)
     {
         await userStateRepository.Delete(id);
+    }
+
+    public async Task<List<BlockedUserDto>> GetBlockedUsersOfConnectedUser()
+    {
+        var connectedUserId = currentUserService.GetUserId();
+        var blockedUserStates = await userStateRepository.GetBlockedUserStatesByInitiatorId(connectedUserId);
+
+        return blockedUserStates
+            .Select(us => new BlockedUserDto
+            {
+                UserStateId = us.Id,
+                BlockedUserId = us.TargetedUserId,
+                BlockedUser = us.TargetedUser.Adapt<UserDto>()
+            })
+            .ToList();
     }
 }

@@ -1,18 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MojiiBackend.Application.Services;
+using Microsoft.EntityFrameworkCore;
 using MojiiBackend.Domain.Entities;
 using MojiiBackend.Infrastructure.Database;
 
 namespace MojiiBackend.Application.Repositories;
 
-public class EventRepository (AppDbContext context) 
+public class EventRepository(AppDbContext context)
     : BaseCrudRepository<Event>(context)
 {
     public async Task<List<Event>> GetAllByOrganization(int organizationId)
     {
         return await _dbSet
+            .AsNoTracking()
             .Include(e => e.Organization)
             .Include(e => e.CreatorUser)
+            .ThenInclude(u => u.Organization)
+            .Include(e => e.CreatorUser)
+            .ThenInclude(u => u.Filiere)
+            .Include(e => e.InterestedUsers)
+            .ThenInclude(u => u.Organization)
+            .Include(e => e.InterestedUsers)
+            .ThenInclude(u => u.Filiere)
             .Where(e => e.OrganizationId == organizationId)
             .OrderByDescending(e => e.StartDate)
             .ToListAsync();
@@ -21,8 +28,16 @@ public class EventRepository (AppDbContext context)
     public override async Task<List<Event>> GetAll()
     {
         return await _dbSet
+            .AsNoTracking()
             .Include(e => e.Organization)
             .Include(e => e.CreatorUser)
+            .ThenInclude(u => u.Organization)
+            .Include(e => e.CreatorUser)
+            .ThenInclude(u => u.Filiere)
+            .Include(e => e.InterestedUsers)
+            .ThenInclude(u => u.Organization)
+            .Include(e => e.InterestedUsers)
+            .ThenInclude(u => u.Filiere)
             .OrderByDescending(e => e.StartDate)
             .ToListAsync();
     }
@@ -32,7 +47,13 @@ public class EventRepository (AppDbContext context)
         return await _dbSet
             .Include(e => e.Organization)
             .Include(e => e.CreatorUser)
+            .ThenInclude(u => u.Organization)
+            .Include(e => e.CreatorUser)
+            .ThenInclude(u => u.Filiere)
             .Include(e => e.InterestedUsers)
+            .ThenInclude(u => u.Organization)
+            .Include(e => e.InterestedUsers)
+            .ThenInclude(u => u.Filiere)
             .FirstOrDefaultAsync(e => e.Id == id);
     }
 

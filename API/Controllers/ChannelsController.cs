@@ -9,7 +9,7 @@ namespace MojiiBackend.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class ChannelsController (ChannelService channelService) : ControllerBase
+public class ChannelsController (ChannelService channelService, RealtimeService realtimeService) : ControllerBase
 {
     [HttpGet("GetAllForUser")]
     public async Task<ActionResult<List<ChannelDto>>> GetAllChannelsForUser(int userId)
@@ -22,6 +22,7 @@ public class ChannelsController (ChannelService channelService) : ControllerBase
     public async Task<ActionResult> CreateChannel([FromBody] ChannelDto channelDto)
     {
         await channelService.CreateChannel(channelDto);
+        await realtimeService.BroadcastEntityChanged("Channel", "Created", channelDto);
         return Ok();
     }
 
@@ -29,6 +30,7 @@ public class ChannelsController (ChannelService channelService) : ControllerBase
     public async Task<ActionResult> DeleteChannel(int id)
     {
         await  channelService.DeleteChannel(id);
+        await realtimeService.BroadcastEntityChanged("Channel", "Deleted", new { id });
         return Ok();
     }
 }

@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using MojiiBackend.Application.Shared;
 using MojiiBackend.Domain.Entities;
 using MojiiBackend.Infrastructure.Database;
 
@@ -29,6 +30,10 @@ public static class AuthConfiguration
         
         var jwtSettings = configuration.GetSection("JwtSettings");
         var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+        var issuer = jwtSettings["Issuer"];
+        var audience = jwtSettings["Audience"];
+        var hasIssuer = !string.IsNullOrWhiteSpace(issuer);
+        var hasAudience = !string.IsNullOrWhiteSpace(audience);
 
         services.AddAuthentication(options =>
             {
@@ -39,15 +44,31 @@ public static class AuthConfiguration
             {
                 options.RequireHttpsMetadata = false; // Mettre à true en production
                 options.SaveToken = true;
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var requestPath = context.HttpContext.Request.Path;
+
+                        if (!string.IsNullOrWhiteSpace(accessToken) &&
+                            requestPath.StartsWithSegments(AppConstants.HubsRoutePrefix))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-            
-                    // Si vous laissez Issuer et Audience vides dans l'appsettings, 
-                    // mettez ces deux flags à 'false' pour le développement local.
-                    ValidateIssuer = false, 
-                    ValidateAudience = false,
+
+                    ValidateIssuer = hasIssuer,
+                    ValidIssuer = hasIssuer ? issuer : null,
+                    ValidateAudience = hasAudience,
+                    ValidAudience = hasAudience ? audience : null,
             
                     RequireExpirationTime = true,
                     ValidateLifetime = true,

@@ -16,12 +16,28 @@ Authorization: Bearer {{auth_token}}
 
 
 ###
+POST {{BACK_URL}}/Posts/UploadImages
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=UploadBoundary
+
+--UploadBoundary
+Content-Disposition: form-data; name="files"; filename="image1.png"
+Content-Type: image/png
+
+< C:/Users/lukas/OneDrive/Documents/image.png
+--UploadBoundary--
+
+
+###
 POST {{BACK_URL}}/Posts
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "Content": "QSDSDFDS de AZEZAZERE post",
+  "content": "Post avec plusieurs images",
+  "imageUrls": [
+    "https://localhost:7171/uploads/posts/your-uploaded-file-1.png"
+  ],
   "userId": 1
 }
 
@@ -33,7 +49,10 @@ Content-Type: application/json
 
 {
   "id": 4,
-  "Content": "NOUVEAU CONTENU modifié"  
+  "content": "Nouveau contenu modifie",
+  "imageUrls": [
+    "https://cdn.example.com/posts/updated-1.png"
+  ]
 }
 
 
@@ -47,6 +66,3 @@ Authorization: Bearer {{auth_token}}
 POST {{BACK_URL}}/Posts/ToggleLike/2
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
-
-
-

@@ -1,4 +1,4 @@
-﻿@BACK_URL = https://localhost:7171/api
+@BACK_URL = https://localhost:7171/api
 
 
 ###
@@ -27,6 +27,13 @@ Content-Type: application/json
 
 {
   "name": "EVENEMENT YNOV",
+  "description": "Soiree de presentation des projets et networking.",
+  "location": "Villeurbanne",
+  "address": "34 Rue Antoine, 69003 Lyon",
+  "dateLabel": "Samedi 26 novembre 2025 - 22h30",
+  "monthLabel": "NOV",
+  "dayLabel": "26",
+  "defaultInterestedCount": 85,
   "startDate": "2026-08-15T09:00:00Z",
   "imageUrl": "https://example.com/event-image.jpg",
   "isPublished": true,
@@ -42,6 +49,13 @@ Content-Type: application/json
 
 {
   "name": "Tech Conference 2026 - Updated",
+  "description": "Programme mis a jour avec nouveaux speakers.",
+  "location": "Lyon",
+  "address": "12 Quai Victor Augagneur, 69003 Lyon",
+  "dateLabel": "Vendredi 12 decembre 2025 - 21h00",
+  "monthLabel": "DEC",
+  "dayLabel": "12",
+  "defaultInterestedCount": 64,
   "startDate": "2026-06-20T09:00:00Z",
   "imageUrl": "https://example.com/event-image-updated.jpg",
   "isPublished": true,
@@ -57,6 +71,42 @@ Authorization: Bearer {{auth_token}}
 
 ###
 # Toggle interested in event (marks user as interested or removes interest)
-POST {{BACK_URL}}/Event/toggle-interested/1
+POST {{BACK_URL}}/Event/ToggleInterested/1
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
+
+
+###
+# Toggle like on event (alias of ToggleInterested)
+POST {{BACK_URL}}/Event/ToggleLike/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+
+###
+# Get comments for one event
+GET {{BACK_URL}}/Event/1/Comments
+Authorization: Bearer {{auth_token}}
+
+
+###
+# Create comment on one event (connected user)
+POST {{BACK_URL}}/Event/1/Comments
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "content": "Super event, hate d'y etre."
+}
+
+
+###
+# Get share payload for one event
+GET {{BACK_URL}}/Event/1/Share
+Authorization: Bearer {{auth_token}}
+
+
+###
+# Share one event (POST variant)
+POST {{BACK_URL}}/Event/1/Share
+Authorization: Bearer {{auth_token}}

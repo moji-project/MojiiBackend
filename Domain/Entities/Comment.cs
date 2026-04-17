@@ -12,10 +12,10 @@ public class Comment : BaseEntity
 
     [Required]
     public int UserId { get; set; }
-    public User User { get; set; } = new();
+    public User User { get; set; } = null!;
 
     public int? PostId { get; set; }
-    public Post? Post { get; set; } = new();
+    public Post? Post { get; set; }
     
     public int? EventId { get; set; }
     public Event? Event { get; set; }

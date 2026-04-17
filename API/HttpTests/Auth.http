@@ -27,6 +27,19 @@ Content-Type: application/json
 
 
 ###
+POST {{BACK_URL}}/Auth/change-password
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+    "CurrentPassword": "Azerty123",
+    "NewPassword": "Azerty1234!",
+    "ConfirmNewPassword": "Azerty1234!"
+}
+
+
+###
 POST {{BACK_URL}}/Auth/login
 Accept: application/json
 Content-Type: application/json

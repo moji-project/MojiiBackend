@@ -1,0 +1,12 @@
+@BACK_URL = https://localhost:7171/api
+
+### Send feedback
+POST {{BACK_URL}}/Feedback
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "subject": "Amelioration UX",
+  "message": "J'aimerais avoir un filtre de recherche plus visible dans la page d'accueil."
+}
+

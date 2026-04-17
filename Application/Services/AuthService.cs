@@ -173,4 +173,21 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
         await _tokenService.RevokeAllUserRefreshTokens(userId);
         return true;
     }
+
+    public async Task ChangePassword(int userId, ChangePasswordDto changePasswordDto)
+    {
+        if (changePasswordDto.NewPassword != changePasswordDto.ConfirmNewPassword)
+            throw new DataException("New password and confirmation password do not match");
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            throw new DataException("User not found");
+
+        var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            throw new DataException($"Failed to change password: {errors}");
+        }
+    }
 }

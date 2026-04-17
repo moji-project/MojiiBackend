@@ -11,35 +11,32 @@ GET {{BACK_URL}}/Report/1
 Authorization: Bearer {{auth_token}}
 
 
-### Create a new report (report a user for harassment)
+### Create report (new payload)
 POST {{BACK_URL}}/Report
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "reporterUserId": 1,
-  "reason": 1,
-  "status": 0,
-  "comment": "This user is sending harassing messages.",
+  "reason": 2,
   "targetUserId": 2,
   "targetPostId": null,
-  "targetCommentId": null
+  "targetCommentId": null,
+  "comment": "This user is sending harassing messages."
 }
 
 
-### Create a new report (report a post for spam)
+### Create report (legacy-compatible payload)
 POST {{BACK_URL}}/Report
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "reporterUserId": 1,
-  "reason": 0,
-  "status": 0,
-  "comment": "This post looks like spam.",
-  "targetUserId": null,
-  "targetPostId": 5,
-  "targetCommentId": null
+  "reason": 1,
+  "reportedUserId": null,
+  "postId": 5,
+  "commentId": null,
+  "description": "This post looks like spam.",
+  "reporterUserId": 1
 }
 
 
@@ -51,7 +48,7 @@ Content-Type: application/json
 {
   "id": 1,
   "reporterUserId": 1,
-  "reason": 1,
+  "reason": 2,
   "status": 1,
   "comment": "Under review by moderation team.",
   "targetUserId": 2,

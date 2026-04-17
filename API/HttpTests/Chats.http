@@ -1,0 +1,41 @@
+@BACK_URL = https://localhost:7171/api
+
+
+###
+# Get my direct conversations
+GET {{BACK_URL}}/Chats/Conversations
+Authorization: Bearer {{auth_token}}
+
+
+###
+# Get or create a direct conversation with user 2
+GET {{BACK_URL}}/Chats/Direct/2
+Authorization: Bearer {{auth_token}}
+
+
+###
+# Get messages from channel 1
+GET {{BACK_URL}}/Chats/Channels/1/Messages
+Authorization: Bearer {{auth_token}}
+
+
+###
+# Send direct message to user 2
+POST {{BACK_URL}}/Chats/Direct/2/Messages
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "content": "Salut, tu vas bien ?"
+}
+
+
+###
+# Send a message to channel 1
+POST {{BACK_URL}}/Chats/Channels/1/Messages
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "content": "Message test channel."
+}
