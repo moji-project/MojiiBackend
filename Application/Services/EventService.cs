@@ -64,7 +64,6 @@ public class EventService (EventRepository eventRepository, CommentRepository co
         existingEvent.DateLabel = eventDto.DateLabel;
         existingEvent.MonthLabel = eventDto.MonthLabel;
         existingEvent.DayLabel = eventDto.DayLabel;
-        existingEvent.DefaultInterestedCount = eventDto.DefaultInterestedCount;
         existingEvent.StartDate = eventDto.StartDate;
         existingEvent.ImageUrl = eventDto.ImageUrl;
         existingEvent.IsPublished = eventDto.IsPublished;
@@ -163,11 +162,9 @@ public class EventService (EventRepository eventRepository, CommentRepository co
         var eventDto = eventEntity.Adapt<EventDto>();
         eventDto.IsInterestedByCurrentUser = eventEntity.InterestedUsers.Any(u => u.Id == currentUserId);
         var dynamicInterestedCount = eventEntity.InterestedUsers.Count;
-        eventDto.InterestedCount = dynamicInterestedCount > 0
-            ? dynamicInterestedCount
-            : Math.Max(0, eventEntity.DefaultInterestedCount);
+        eventDto.InterestedCount = dynamicInterestedCount;
         eventDto.IsLikedByCurrentUser = eventDto.IsInterestedByCurrentUser;
-        eventDto.LikesCount = eventDto.InterestedCount;
+        eventDto.LikesCount = dynamicInterestedCount;
         eventDto.CommentsCount = commentsCountByEventId.TryGetValue(eventEntity.Id, out var count) ? count : 0;
         return eventDto;
     }

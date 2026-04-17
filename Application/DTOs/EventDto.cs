@@ -9,7 +9,6 @@ public class EventDto : BaseEntityDto
     public string? DateLabel { get; set; }
     public string? MonthLabel { get; set; }
     public string? DayLabel { get; set; }
-    public int DefaultInterestedCount { get; set; } = 0;
     public DateTime StartDate { get; set; }
     public string? ImageUrl { get; set; }
     public bool IsPublished { get; set; } = false;
