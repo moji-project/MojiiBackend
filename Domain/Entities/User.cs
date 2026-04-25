@@ -38,14 +38,14 @@ public class User : IdentityUser<int>
     
     [Required]
     public int OrganizationId { get; set; }
-    public Organization Organization { get; set; } = new();
+    public Organization Organization { get; set; } = null!;
     
     [MaxLength(5)]
     public string? VerificationCode { get; set; }
     
     [Required]
     public int FiliereId { get; set; }
-    public Filiere Filiere { get; set; } = new();
+    public Filiere Filiere { get; set; } = null!;
     
     public List<Post> CreatedPosts { get; set; } = [];
     public List<Post> LikedPosts { get; set; } = [];

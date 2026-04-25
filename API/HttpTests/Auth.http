@@ -46,7 +46,7 @@ Content-Type: application/json
 
 {
     "Email": "anis.benjemia@ynov.com",
-    "Password": "Azerty123"
+    "Password": "Password1"
 }
 
 > {%

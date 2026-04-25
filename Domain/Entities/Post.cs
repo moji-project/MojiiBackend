@@ -15,7 +15,7 @@ public class Post : BaseEntity
     
     [Required]
     public int UserId { get; set; }
-    public User User { get; set; } = new();
+    public User User { get; set; } = null!;
     
     public List<Comment> Comments { get; set; } = [];
     

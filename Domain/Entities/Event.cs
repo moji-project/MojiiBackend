@@ -37,11 +37,11 @@ public class Event : BaseEntity
     
     [Required]
     public int OrganizationId { get; set; }
-    public Organization Organization { get; set; } = new();
+    public Organization Organization { get; set; } = null!;
     
     [Required]
     public int CreatorUserId { get; set; }
-    public User CreatorUser { get; set; } = new();
+    public User CreatorUser { get; set; } = null!;
     
     public List<User> InterestedUsers { get; set; } = [];
 }
