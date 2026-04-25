@@ -87,8 +87,7 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
     /// </summary>
     /// <param name="loginDto">The login data (email and password).</param>
     /// <returns>An <see cref="AuthResponseDto"/> containing access and refresh tokens and user information.</returns>
-    /// <exception cref="InvalidCredentialsException">Thrown when the email or password is incorrect.</exception>
-    /// <exception cref="UserNotActiveException">Thrown when the user account is disabled or inactive.</exception>
+    /// <exception cref="DataException">Thrown exception (either Invalid Credentials or email not confirmed).</exception>
     public async Task<AuthResponseDto> Login(LoginDto loginDto)
     {
         var user = await _userManager.FindByEmailAsync(loginDto.Email);
@@ -122,8 +121,7 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
     /// </summary>
     /// <param name="refreshTokenDto">The refresh token data (access token and refresh token).</param>
     /// <returns>An <see cref="AuthResponseDto"/> containing new access and refresh tokens and user information.</returns>
-    /// <exception cref="InvalidRefreshTokenException">Thrown when the refresh token is invalid or expired.</exception>
-    /// <exception cref="UserNotActiveException">Thrown when the user account is disabled or inactive.</exception>
+    /// <exception cref="DataException">Excption thrown (either invalid user ID, invalid refrsh token or user not found)</exception>
     public async Task<AuthResponseDto> RefreshToken(RefreshTokenDto refreshTokenDto)
     {
         var principal = _tokenService.GetPrincipalFromExpiredToken(refreshTokenDto.AccessToken);

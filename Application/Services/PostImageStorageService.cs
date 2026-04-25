@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace MojiiBackend.Application.Services;
 
-public class PostImageStorageService(IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
+public class PostImageStorageService(IWebHostEnvironment environment, SharedImageService sharedImageService)
 {
     private const int MaxFilesPerRequest = 5;
     private const long MaxFileSizeBytes = 8 * 1024 * 1024; // 8 MB per file
@@ -50,18 +50,11 @@ public class PostImageStorageService(IWebHostEnvironment environment, IHttpConte
                 await file.CopyToAsync(stream, cancellationToken);
             }
 
-            uploadedUrls.Add(BuildAbsoluteUrl($"/uploads/posts/{fileName}"));
+            uploadedUrls.Add(sharedImageService.BuildAbsoluteUrl($"/uploads/posts/{fileName}"));
         }
 
         return uploadedUrls;
     }
 
-    private string BuildAbsoluteUrl(string relativePath)
-    {
-        var request = httpContextAccessor.HttpContext?.Request;
-        if (request == null)
-            return relativePath;
 
-        return $"{request.Scheme}://{request.Host}{relativePath}";
-    }
 }

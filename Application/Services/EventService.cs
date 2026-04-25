@@ -1,11 +1,13 @@
-﻿using Mapster;
+﻿using System.Globalization;
+using Mapster;
 using MojiiBackend.Application.DTOs;
 using MojiiBackend.Application.Repositories;
+using MojiiBackend.Application.Shared;
 using MojiiBackend.Domain.Entities;
 
 namespace MojiiBackend.Application.Services;
 
-public class EventService (EventRepository eventRepository, CommentRepository commentRepository, ICurrentUserService currentUserService)
+public class EventService (EventRepository eventRepository, CommentRepository commentRepository, ICurrentUserService currentUserService, SharedImageService sharedImageService)
 {
     public async Task<List<EventDto>> GetAllByOrganization(int organizationId)
     {
@@ -46,6 +48,11 @@ public class EventService (EventRepository eventRepository, CommentRepository co
 
         var eventEntity = eventDto.Adapt<Event>();
         eventEntity.CreatorUserId = userId;
+        
+        // On ignore l'imageUrl fournie ou on met une valeur par défaut
+        eventEntity.ImageUrl = sharedImageService.BuildAbsoluteUrl(AppConstants.DefaultEventImagePath);
+        
+        PopulateLabels(eventEntity);
 
         await eventRepository.Create(eventEntity);
         return eventEntity.Adapt<EventDto>();
@@ -61,12 +68,10 @@ public class EventService (EventRepository eventRepository, CommentRepository co
         existingEvent.Description = eventDto.Description;
         existingEvent.Location = eventDto.Location;
         existingEvent.Address = eventDto.Address;
-        existingEvent.DateLabel = eventDto.DateLabel;
-        existingEvent.MonthLabel = eventDto.MonthLabel;
-        existingEvent.DayLabel = eventDto.DayLabel;
         existingEvent.StartDate = eventDto.StartDate;
-        existingEvent.ImageUrl = eventDto.ImageUrl;
         existingEvent.IsPublished = eventDto.IsPublished;
+        
+        PopulateLabels(existingEvent);
 
         await eventRepository.Update(existingEvent);
         return existingEvent.Adapt<EventDto>();
@@ -167,5 +172,22 @@ public class EventService (EventRepository eventRepository, CommentRepository co
         eventDto.LikesCount = dynamicInterestedCount;
         eventDto.CommentsCount = commentsCountByEventId.TryGetValue(eventEntity.Id, out var count) ? count : 0;
         return eventDto;
+    }
+    
+    private void PopulateLabels(Event eventToPopulate)
+    {
+        // On utilise la culture française pour le formatage (Samedi, Novembre, etc.)
+        var culture = new CultureInfo("fr-FR");
+
+        // "26"
+        eventToPopulate.DayLabel = eventToPopulate.StartDate.Day.ToString();
+
+        // "NOV" (On prend les 3 premières lettres et on met en majuscules)
+        eventToPopulate.MonthLabel = eventToPopulate.StartDate.ToString("MMM", culture).ToUpper().Replace(".", "");
+
+        // "Samedi 26 novembre 2025 - 22h30"
+        // ToTitleCase permet de mettre la majuscule sur le jour
+        var dateString = eventToPopulate.StartDate.ToString("dddd d MMMM yyyy", culture);
+        eventToPopulate.DateLabel = $"{culture.TextInfo.ToTitleCase(dateString)} - {eventToPopulate.StartDate:HH:mm}".Replace(":", "h");
     }
 }

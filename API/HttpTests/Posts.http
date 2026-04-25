@@ -6,7 +6,7 @@ Authorization: Bearer {{auth_token}}
 
 
 ###
-GET {{BACK_URL}}/Posts/GetMostRecentWithSkip/10
+GET {{BACK_URL}}/Posts/GetMostRecentWithSkip/0
 Authorization: Bearer {{auth_token}}
 
 

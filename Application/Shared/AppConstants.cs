@@ -6,6 +6,8 @@ public static class AppConstants
     public const string ChatHubRoute = "/hubs/chat";
     public const string RealtimeHubRoute = "/hubs/realtime";
     public const string HubsRoutePrefix = "/hubs";
+
+    public const string DefaultEventImagePath = "/uploads/events/party.png";
 }
 
 public static class AppRoles
