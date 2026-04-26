@@ -9,7 +9,7 @@ namespace MojiiBackend.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class EventController (EventService eventService, RealtimeService realtimeService) : ControllerBase
+public class EventController (EventService eventService, ImageStorageService imageStorageService, RealtimeService realtimeService) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<EventDto>>> GetAllEvents()
@@ -144,6 +144,24 @@ public class EventController (EventService eventService, RealtimeService realtim
         catch (ArgumentException ex)
         {
             return NotFound(new { error = ex.Message });
+        }
+    }
+
+    [HttpPost("UploadImage/{eventId:int}")]
+    [Consumes("multipart/form-data")]
+    [RequestSizeLimit(10 * 1024 * 1024)]
+    public async Task<ActionResult> UploadImage(int eventId, [FromForm] IFormFile file, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var imageUrl = await imageStorageService.UploadImage(file, "events", cancellationToken);
+            var updatedEvent = await eventService.UploadImage(eventId, imageUrl);
+            await realtimeService.BroadcastEntityChanged("Event", "Updated", updatedEvent);
+            return Ok(updatedEvent);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
         }
     }
 }

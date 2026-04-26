@@ -107,6 +107,24 @@ public class UserService(UserManager<User> userManager, ICurrentUserService curr
         return updatedUser.Adapt<UserDto>();
     }
 
+    public async Task<UserDto> UploadProfilePicture(string profilePictureUrl)
+    {
+        int connectedUserId = currentUserService.GetUserId();
+        User? connectedUser = await userRepository.GetById(connectedUserId);
+
+        if (connectedUser is null)
+            throw new DataException("User not found");
+
+        connectedUser.ProfilePicUrl = profilePictureUrl;
+        await userRepository.Update(connectedUser);
+
+        var updatedConnectedUser = await userRepository.GetById(connectedUserId);
+        if (updatedConnectedUser is null)
+            throw new DataException("User not found");
+
+        return updatedConnectedUser.Adapt<UserDto>();
+    }
+
     public async Task<User?> GetUserEntityById(int userId)
     {
         return await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);

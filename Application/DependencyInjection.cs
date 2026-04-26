@@ -31,6 +31,7 @@ public static class DependencyInjection
         services
             .AddScoped<ICurrentUserService, CurrentUserService>()
             .AddScoped<PostImageStorageService>()
+            .AddScoped<ImageStorageService>()
             .AddScoped<SharedImageService>()
             .AddScoped<UserService>()
             .AddScoped<PostService>()

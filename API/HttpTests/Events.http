@@ -9,7 +9,7 @@ Authorization: Bearer {{auth_token}}
 
 ###
 # Get event by ID
-GET {{BACK_URL}}/Event/1
+GET {{BACK_URL}}/Event/102
 Authorization: Bearer {{auth_token}}
 
 
@@ -108,3 +108,17 @@ Authorization: Bearer {{auth_token}}
 # Share one event (POST variant)
 POST {{BACK_URL}}/Event/1/Share
 Authorization: Bearer {{auth_token}}
+
+
+###
+# Upload one event image
+POST {{BACK_URL}}/Event/UploadImage/102
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="event-image.png"
+Content-Type: image/png
+
+< C:\Users\Anis\Downloads\image(3).png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

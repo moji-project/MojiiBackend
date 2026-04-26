@@ -10,7 +10,7 @@ namespace MojiiBackend.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class UsersController (UserService userService, RealtimeService realtimeService) : ControllerBase
+public class UsersController (UserService userService, ImageStorageService imageStorageService, RealtimeService realtimeService) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<UserDto>>> GetAllUsers()
@@ -68,6 +68,28 @@ public class UsersController (UserService userService, RealtimeService realtimeS
         catch (DataException ex)
         {
             return NotFound(new { error = ex.Message });
+        }
+    }
+
+    [HttpPost("UploadProfilePicture")]
+    [Consumes("multipart/form-data")]
+    [RequestSizeLimit(10 * 1024 * 1024)]
+    public async Task<ActionResult<UserDto>> UploadProfilePicture([FromForm] IFormFile file, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var imageUrl = await imageStorageService.UploadImage(file, "users", cancellationToken);
+            var updatedUser = await userService.UploadProfilePicture(imageUrl);
+            await realtimeService.BroadcastEntityChanged("User", "Updated", updatedUser);
+            return Ok(updatedUser);
+        }
+        catch (DataException ex)
+        {
+            return NotFound(new { error = ex.Message });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
         }
     }
 }

@@ -77,6 +77,17 @@ public class EventService (EventRepository eventRepository, CommentRepository co
         return existingEvent.Adapt<EventDto>();
     }
 
+    public async Task<EventDto> UploadImage(int eventId, string imageUrl)
+    {
+        var existingEvent = await eventRepository.GetById(eventId);
+        if (existingEvent == null)
+            throw new ArgumentException("Event not found.");
+
+        existingEvent.ImageUrl = imageUrl;
+        await eventRepository.Update(existingEvent);
+        return existingEvent.Adapt<EventDto>();
+    }
+
     public async Task DeleteEvent(int eventId)
     {
         await eventRepository.Delete(eventId);
