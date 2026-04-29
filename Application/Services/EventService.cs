@@ -176,6 +176,7 @@ public class EventService (EventRepository eventRepository, CommentRepository co
     private static EventDto MapEventToDto(Event eventEntity, int currentUserId, IReadOnlyDictionary<int, int> commentsCountByEventId)
     {
         var eventDto = eventEntity.Adapt<EventDto>();
+        eventDto.InterestedUsers = eventEntity.InterestedUsers.Adapt<List<UserDto>>();
         eventDto.IsInterestedByCurrentUser = eventEntity.InterestedUsers.Any(u => u.Id == currentUserId);
         var dynamicInterestedCount = eventEntity.InterestedUsers.Count;
         eventDto.InterestedCount = dynamicInterestedCount;

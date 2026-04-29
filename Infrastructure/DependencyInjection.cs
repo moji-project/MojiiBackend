@@ -28,6 +28,9 @@ public static class DependencyInjection
 
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
+        // Needed for Docker startup: apply pending EF migrations automatically.
+        app.RunMigrations();
+
         var webRoot = app.Environment.WebRootPath ?? Path.Combine(app.Environment.ContentRootPath, "wwwroot");
         var postsUploadsFolder = Path.Combine(webRoot, "uploads", "posts");
         Directory.CreateDirectory(postsUploadsFolder);

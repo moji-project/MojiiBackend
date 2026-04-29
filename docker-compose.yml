@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: mojii-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mojii
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5533:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mojii"]
+      interval: 5s
+      timeout: 5s
+      retries: 10  
+
+  api:
+    pull_policy: if_not_present
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mojii-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Server=db;Port=5432;Database=mojii;Username=postgres;Password=password;
+    ports:
+      - "7200:8080"
+    develop:
+      watch:
+        - action: rebuild
+          path: .
+          ignore:
+            - bin/
+            - obj/
+            - .git/
+
+volumes:
+  postgres_data:

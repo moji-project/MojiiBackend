@@ -1,4 +1,4 @@
-﻿@BACK_URL = https://localhost:7171/api
+﻿@BACK_URL = http://localhost:7200/api
 
 POST {{BACK_URL}}/Auth/register
 Accept: application/json

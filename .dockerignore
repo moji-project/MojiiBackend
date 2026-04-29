@@ -1,0 +1,12 @@
+**/.git
+**/.idea
+**/.vscode
+**/.cursor
+**/bin
+**/obj
+**/node_modules
+**/.DS_Store
+**/*.user
+**/*.suo
+**/*.db
+**/*.log
