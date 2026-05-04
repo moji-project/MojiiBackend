@@ -13,6 +13,16 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
+        
         services
             .AddDatabase(configuration, environment)
             .AddRepositoryServices()
@@ -30,6 +40,8 @@ public static class DependencyInjection
     {
         // Needed for Docker startup: apply pending EF migrations automatically.
         app.RunMigrations();
+        
+        app.UseCors("AllowAll");
 
         var webRoot = app.Environment.WebRootPath ?? Path.Combine(app.Environment.ContentRootPath, "wwwroot");
         var postsUploadsFolder = Path.Combine(webRoot, "uploads", "posts");
