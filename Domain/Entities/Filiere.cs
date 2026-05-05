@@ -10,6 +10,9 @@ public class Filiere : BaseEntity
     [Required, MaxLength(6)]
     public string Niveau { get; set; } = string.Empty;
     
+    [MaxLength(12)]
+    public string? AnneeScolaire { get; set; }
+    
         
     [Required]
     public int OrganizationId { get; set; }

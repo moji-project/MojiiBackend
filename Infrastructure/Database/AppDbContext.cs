@@ -234,9 +234,9 @@ private void SeedData(ModelBuilder modelBuilder)
 
         // --- FILIERES (3: 2 for org 1, 1 for org 2) ---
         modelBuilder.Entity<Filiere>().HasData(
-            new Filiere { Id = 101, Intitule = "Développement Web",        Niveau = "M2", OrganizationId = 101, CreatedAt = seedDate, UpdatedAt = seedDate },
-            new Filiere { Id = 102, Intitule = "Intelligence Artificielle", Niveau = "M1", OrganizationId = 101, CreatedAt = seedDate, UpdatedAt = seedDate },
-            new Filiere { Id = 103, Intitule = "Cybersécurité",             Niveau = "M2", OrganizationId = 102, CreatedAt = seedDate, UpdatedAt = seedDate }
+            new Filiere { Id = 101, Intitule = "Développement Web",        Niveau = "M2", AnneeScolaire = "2025/2026", OrganizationId = 101, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Filiere { Id = 102, Intitule = "Intelligence Artificielle", Niveau = "M1", AnneeScolaire = "2025/2026", OrganizationId = 101, CreatedAt = seedDate, UpdatedAt = seedDate },
+            new Filiere { Id = 103, Intitule = "Cybersécurité",             Niveau = "M2", AnneeScolaire = "2025/2026", OrganizationId = 102, CreatedAt = seedDate, UpdatedAt = seedDate }
         );
         
 
@@ -258,7 +258,7 @@ private void SeedData(ModelBuilder modelBuilder)
         modelBuilder.Entity<IdentityUserRole<int>>().HasData(
             new IdentityUserRole<int> { UserId = 101, RoleId = 2 },
             new IdentityUserRole<int> { UserId = 102, RoleId = 1 },
-            new IdentityUserRole<int> { UserId = 103, RoleId = 1 },
+            new IdentityUserRole<int> { UserId = 103, RoleId = 2 },
             new IdentityUserRole<int> { UserId = 104, RoleId = 1 },
             new IdentityUserRole<int> { UserId = 105, RoleId = 1 },
             new IdentityUserRole<int> { UserId = 106, RoleId = 1 },

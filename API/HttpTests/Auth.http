@@ -53,3 +53,31 @@ Content-Type: application/json
     // On enregistre le token dans une variable globale
     client.global.set("auth_token", response.body.accessToken);
 %}
+
+
+###
+POST {{BACK_URL}}/Auth/LoginAdmin
+Accept: application/json
+Content-Type: application/json
+
+{
+  "Email": "anis.benjemia@ynov.com",
+  "Password": "Password1"
+}
+
+> {%
+    // On enregistre le token dans une variable globale
+    client.global.set("auth_token", response.body.accessToken);
+%}
+
+
+
+
+
+
+
+
+###
+POST {{BACK_URL}}/Auth/logout
+Authorization: Bearer {{auth_token}}
+Accept: application/json

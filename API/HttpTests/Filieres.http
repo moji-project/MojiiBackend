@@ -7,12 +7,13 @@ Content-Type: application/json
 {
   "Intitule": "Informatique",
   "Niveau": "M2",
-  "OrganizationId": 1
+  "AnneeScolaire": "2026/2027",
+  "OrganizationId": 101
 }
 
 
 ###
-GET {{BACK_URL}}/Filieres/GetAllByOrganization/1
+GET {{BACK_URL}}/Filieres/GetAllByOrganization/101
 Authorization: Bearer {{auth_token}}
 
 
@@ -32,3 +33,9 @@ Content-Type: application/json
 ###
 DELETE {{BACK_URL}}/Filieres/1
 Authorization: Bearer {{auth_token}}
+
+
+###
+GET {{BACK_URL}}/Filieres/GetUsersByFiliere/101
+Authorization: Bearer {{auth_token}}
+Accept: application/json

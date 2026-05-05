@@ -7,10 +7,16 @@ namespace MojiiBackend.Application.Services;
 
 public class FiliereService (FiliereRepository filiereRepository)
 {
-    public async Task<List<FiliereDto>> GetAllByOrganization(int organizationId)
+    public async Task<List<FiliereWithInfosDto>> GetAllByOrganization(int organizationId)
     {
         var filieres = await filiereRepository.GetAllByOrganization(organizationId);
-        return filieres.Adapt<List<FiliereDto>>();
+        List<FiliereWithInfosDto> filieresWithInfosDto = filieres.Adapt<List<FiliereWithInfosDto>>();
+        foreach (var filiere in filieresWithInfosDto)
+        {
+            filiere.NbOfStudents = await filiereRepository.GetNbOfStudentsForFiliere(filiere.Id);
+            filiere.NbOfMojiis = await filiereRepository.GetNbOfMojiisForFiliere(filiere.Id);
+        }
+        return filieresWithInfosDto.Adapt<List<FiliereWithInfosDto>>();
     }
 
     public async Task CreateFiliere(FiliereDto filiereDto)
@@ -28,5 +34,11 @@ public class FiliereService (FiliereRepository filiereRepository)
     public async Task DeleteFiliere(int id)
     {
         await filiereRepository.Delete(id);
+    }
+
+    public async Task<List<UserDto>> GetUsersByFiliere(int filiereId)
+    {
+        var users = await filiereRepository.GetUsersByFiliere(filiereId);
+        return users.Adapt<List<UserDto>>();
     }
 }

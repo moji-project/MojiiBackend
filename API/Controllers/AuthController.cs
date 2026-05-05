@@ -45,6 +45,17 @@ public class AuthController(AuthService authService) : ControllerBase
         var result = await authService.Login(loginDto);
         return Ok(result);
     }
+    
+    /* Il faut avoir le rôle SchoolAdmin pour que ça marche, sinn, ça renverra une exception */
+    [HttpPost("LoginAdmin")]
+    [AllowAnonymous]
+    [ProducesResponseType(200, Type = typeof(AuthResponseDto))]
+    [ProducesResponseType(401)]
+    public async Task<ActionResult<AuthResponseDto>> LoginAdmin([FromBody] LoginDto loginDto)
+    {
+        var result = await authService.LoginAdmin(loginDto);
+        return Ok(result);
+    }
 
     /// <summary>
     /// Refreshes the access token using a valid refresh token.

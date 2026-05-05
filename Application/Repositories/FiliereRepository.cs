@@ -15,4 +15,25 @@ public class FiliereRepository : BaseCrudRepository<Filiere>
             .Where(f => f.OrganizationId == organizationId)
             .ToListAsync();
     }
+
+    public async Task<int> GetNbOfStudentsForFiliere(int filiereId)
+    {
+        return await _context.Users
+            .CountAsync(u => u.FiliereId == filiereId);
+    }
+    
+    public async Task<int> GetNbOfMojiisForFiliere(int filiereId)
+    {
+        return await _context.Posts
+            .CountAsync(p => _context.Users
+                .Any(u => u.Id == p.UserId && u.FiliereId == filiereId));
+    }
+
+    public async Task<List<User>> GetUsersByFiliere(int filiereId)
+    {
+        return await _context.Users
+            .AsNoTracking()
+            .Where(u => u.FiliereId == filiereId)
+            .ToListAsync();
+    }
 }

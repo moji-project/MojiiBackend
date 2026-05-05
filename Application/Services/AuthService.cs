@@ -115,6 +115,34 @@ public class AuthService(UserManager<User> _userManager, TokenService _tokenServ
             User = userDto
         };
     }
+    
+    public async Task<AuthResponseDto> LoginAdmin(LoginDto loginDto)
+    {
+        var user = await _userManager.FindByEmailAsync(loginDto.Email);
+        if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
+            throw new DataException("Invalid credentials");
+
+        var roles = await _userManager.GetRolesAsync(user);
+        Console.WriteLine(roles);
+        if (roles.Contains(AppRoles.SchoolAdmin) == false)
+            throw new DataException("User is not admin");
+        
+        var accessToken = _tokenService.GenerateAccessToken(user, roles);
+        var refreshToken = await _tokenService.CreateRefreshToken(user.Id);
+
+        user.LastConnectionDate = DateTime.UtcNow;
+        await _userManager.UpdateAsync(user);
+
+        var userDto = user.Adapt<UserDto>();
+
+        return new AuthResponseDto
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken.Token,
+            ExpiresAt = refreshToken.ExpiresAt,
+            User = userDto
+        };
+    }
 
     /// <summary>
     /// Refreshes the access token using a valid refresh token.

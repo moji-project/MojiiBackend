@@ -41,4 +41,11 @@ public class FilieresController (FiliereService filiereService, RealtimeService 
         await realtimeService.BroadcastEntityChanged("Filiere", "Deleted", new { id });
         return Ok();
     }
+
+    [HttpGet("GetUsersByFiliere/{filiereId:int}")]
+    public async Task<ActionResult<UserDto>> GetUsersByFiliere(int filiereId)
+    {
+        var users = await filiereService.GetUsersByFiliere(filiereId);
+        return Ok(users);
+    }
 }
