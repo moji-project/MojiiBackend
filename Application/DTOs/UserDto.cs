@@ -7,11 +7,13 @@ public class UserDto : BaseEntityDto
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
+    public DateTime? BirthDate { get; set; }
     public string Email { get; set; } = string.Empty;
     public string? Biography { get; set; }
     public string? ProfilePicUrl { get; set; }
     public bool IsConnected { get; set; }
     public DateTime? LastConnectionDate { get; set; }
+    public int NbOfPosts { get; set; }
     
     public int OrganizationId { get; set; } 
     public OrganizationDto? Organization { get; set; }

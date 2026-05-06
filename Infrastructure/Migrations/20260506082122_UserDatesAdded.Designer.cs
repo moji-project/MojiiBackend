@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MojiiBackend.Infrastructure.Database;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MojiiBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260506082122_UserDatesAdded")]
+    partial class UserDatesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1595,7 +1598,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP1",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "anis.benjemia@ynov.com",
                             EmailConfirmed = true,
                             FiliereId = 101,
@@ -1611,7 +1614,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP1",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "anis.benjemia"
                         },
                         new
@@ -1620,7 +1623,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP2",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "lukas.bouhlel@ynov.com",
                             EmailConfirmed = true,
                             FiliereId = 102,
@@ -1636,7 +1639,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP2",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "lukas.bouhlel"
                         },
                         new
@@ -1645,7 +1648,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP3",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "elias.eloudghiri@ynov.com",
                             EmailConfirmed = true,
                             FiliereId = 101,
@@ -1661,7 +1664,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP3",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "elias.eloudghiri"
                         },
                         new
@@ -1670,7 +1673,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP4",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "matthieu.vernier@ynov.com",
                             EmailConfirmed = true,
                             FiliereId = 102,
@@ -1686,7 +1689,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP4",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "matthieu.vernier"
                         },
                         new
@@ -1695,7 +1698,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP5",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "hajar.zahoui@ynov.com",
                             EmailConfirmed = true,
                             FiliereId = 101,
@@ -1711,7 +1714,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP5",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "hajar.zahoui"
                         },
                         new
@@ -1720,7 +1723,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP6",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "khadidja.khababa@ynov.com",
                             EmailConfirmed = false,
                             FiliereId = 102,
@@ -1734,7 +1737,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             PhoneNumberConfirmed = false,
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "khadidja.khababa"
                         },
                         new
@@ -1743,7 +1746,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP7",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "lea.regoudis@ynov.com",
                             EmailConfirmed = true,
                             FiliereId = 101,
@@ -1759,7 +1762,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP7",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "lea.regoudis"
                         },
                         new
@@ -1768,7 +1771,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP8",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "hugo.laurent@ynov.com",
                             EmailConfirmed = true,
                             FiliereId = 102,
@@ -1784,7 +1787,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP8",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "hugo.laurent"
                         },
                         new
@@ -1793,7 +1796,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP9",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "ines.thomas@ynov.com",
                             EmailConfirmed = true,
                             FiliereId = 101,
@@ -1809,7 +1812,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP9",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "ines.thomas"
                         },
                         new
@@ -1818,7 +1821,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2003, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             ConcurrencyStamp = "CONCSTAMP10",
-                            CreatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             Email = "jules.garnier@esgi.fr",
                             EmailConfirmed = true,
                             FiliereId = 103,
@@ -1834,7 +1837,7 @@ namespace MojiiBackend.Infrastructure.Migrations
                             SecurityStamp = "SECSTAMP10",
                             Status = "Active",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2026, 4, 17, 16, 0, 0, 0, DateTimeKind.Utc),
+                            UpdatedAt = new DateTime(2026, 4, 20, 16, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "jules.garnier"
                         });
                 });

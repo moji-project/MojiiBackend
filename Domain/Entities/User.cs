@@ -17,6 +17,8 @@ public class User : IdentityUser<int>
     public string LastName { get; set; } = string.Empty;
     
     public string FullName => $"{FirstName} {LastName}";
+    
+    public DateTime? BirthDate { get; set; }
 
     [Required]
     [MaxLength(120)]
@@ -33,6 +35,9 @@ public class User : IdentityUser<int>
     public bool IsConnected { get; set; }
 
     public DateTime? LastConnectionDate { get; set; }
+    
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     
     public UserStatus Status { get; set; } = UserStatus.Pending;
     

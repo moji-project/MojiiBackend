@@ -6,6 +6,16 @@ Authorization: Bearer {{auth_token}}
 
 
 ###
+GET {{BACK_URL}}/Organizations/GetStudentsOfOrganizationOrderByCreationDate/101
+Authorization: Bearer {{auth_token}}
+
+
+###
+GET {{BACK_URL}}/Organizations/GetStatistics/101
+Authorization: Bearer {{auth_token}}
+
+
+###
 POST {{BACK_URL}}/Organizations
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json

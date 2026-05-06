@@ -199,6 +199,22 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
         
             entityEntry.Entity.UpdatedAt = now;
         }
+        
+        var userEntries = ChangeTracker
+            .Entries<User>()
+            .Where(e => e.State is EntityState.Added or EntityState.Modified);
+
+        foreach (var userEntry in userEntries)
+        {
+            var now = DateTime.UtcNow;
+
+            if (userEntry.State == EntityState.Added)
+            {
+                userEntry.Entity.CreatedAt = now;
+            }
+
+            userEntry.Entity.UpdatedAt = now;
+        }
 
         return base.SaveChangesAsync(cancellationToken);
     }
@@ -206,6 +222,8 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
 private void SeedData(ModelBuilder modelBuilder)
     {
         var seedDate = new DateTime(2026, 4, 20, 16, 0, 0, DateTimeKind.Utc);
+        var seedDate2 = new DateTime(2026, 4, 17, 16, 0, 0, DateTimeKind.Utc);
+
         var frCulture = new CultureInfo("fr-FR");
         // All seeded users share the same hash for plain text password: --> Password1 <--
         const string defaultPasswordHash = "AQAAAAIAAYagAAAAEJMYvnVYX5xc6g1z+x87i4aLP/O2sLWIgp31WRqewgUw2vGfKTOApvSzWBnLzc58Ag==";
@@ -238,20 +256,21 @@ private void SeedData(ModelBuilder modelBuilder)
             new Filiere { Id = 102, Intitule = "Intelligence Artificielle", Niveau = "M1", AnneeScolaire = "2025/2026", OrganizationId = 101, CreatedAt = seedDate, UpdatedAt = seedDate },
             new Filiere { Id = 103, Intitule = "Cybersécurité",             Niveau = "M2", AnneeScolaire = "2025/2026", OrganizationId = 102, CreatedAt = seedDate, UpdatedAt = seedDate }
         );
-        
+
+        DateTime defaultBirthDate = new DateTime(2003, 4, 1, 0, 0, 0, DateTimeKind.Utc);
 
         // --- USERS (10: users 1-9 → org 1 with filiere 1 or 2, user 10 → org 2 filiere 3) ---
         modelBuilder.Entity<User>().HasData(
-            new User { Id = 101, FirstName = "Anis",    LastName = "Ben Jemia",    UserName = "anis.benjemia",    NormalizedUserName = "ANIS.BENJEMIA",    Email = "anis.benjemia@ynov.com",    NormalizedEmail = "ANIS.BENJEMIA@YNOV.COM",    EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP1",  ConcurrencyStamp = "CONCSTAMP1",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active },
-            new User { Id = 102, FirstName = "Lukas",   LastName = "Bouhlel",      UserName = "lukas.bouhlel",    NormalizedUserName = "LUKAS.BOUHLEL",    Email = "lukas.bouhlel@ynov.com",    NormalizedEmail = "LUKAS.BOUHLEL@YNOV.COM",    EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP2",  ConcurrencyStamp = "CONCSTAMP2",  OrganizationId = 101, FiliereId = 102, Status = UserStatus.Active },
-            new User { Id = 103, FirstName = "Elias",   LastName = "El Oudghiri",  UserName = "elias.eloudghiri", NormalizedUserName = "ELIAS.ELOUDGHIRI", Email = "elias.eloudghiri@ynov.com", NormalizedEmail = "ELIAS.ELOUDGHIRI@YNOV.COM", EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP3",  ConcurrencyStamp = "CONCSTAMP3",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active },
-            new User { Id = 104, FirstName = "Matthieu",LastName = "Vernier",      UserName = "matthieu.vernier",  NormalizedUserName = "MATTHIEU.VERNIER",  Email = "matthieu.vernier@ynov.com",  NormalizedEmail = "MATTHIEU.VERNIER@YNOV.COM",  EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP4",  ConcurrencyStamp = "CONCSTAMP4",  OrganizationId = 101, FiliereId = 102, Status = UserStatus.Active },
-            new User { Id = 105, FirstName = "Hajar",   LastName = "Zahoui",       UserName = "hajar.zahoui",     NormalizedUserName = "HAJAR.ZAHOUI",     Email = "hajar.zahoui@ynov.com",     NormalizedEmail = "HAJAR.ZAHOUI@YNOV.COM",     EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP5",  ConcurrencyStamp = "CONCSTAMP5",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active },
-            new User { Id = 106, FirstName = "Khadidja",LastName = "Khababa",      UserName = "khadidja.khababa",  NormalizedUserName = "KHADIDJA.KHABABA",  Email = "khadidja.khababa@ynov.com",  NormalizedEmail = "KHADIDJA.KHABABA@YNOV.COM",  EmailConfirmed = false, ConcurrencyStamp = "CONCSTAMP6",  OrganizationId = 101, FiliereId = 102, Status = UserStatus.Active },
-            new User { Id = 107, FirstName = "Léa",    LastName = "Regoudis",     UserName = "lea.regoudis",     NormalizedUserName = "LEA.REGOUDIS",     Email = "lea.regoudis@ynov.com",     NormalizedEmail = "LEA.REGOUDIS@YNOV.COM",     EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP7",  ConcurrencyStamp = "CONCSTAMP7",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active },
-            new User { Id = 108, FirstName = "Hugo",   LastName = "Laurent",  UserName = "hugo.laurent",   NormalizedUserName = "HUGO.LAURENT",   Email = "hugo.laurent@ynov.com",   NormalizedEmail = "HUGO.LAURENT@YNOV.COM",   EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP8",  ConcurrencyStamp = "CONCSTAMP8",  OrganizationId = 101, FiliereId = 102, Status = UserStatus.Active },
-            new User { Id = 109, FirstName = "Ines",   LastName = "Thomas",   UserName = "ines.thomas",    NormalizedUserName = "INES.THOMAS",    Email = "ines.thomas@ynov.com",    NormalizedEmail = "INES.THOMAS@YNOV.COM",    EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP9",  ConcurrencyStamp = "CONCSTAMP9",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active },
-            new User { Id = 110, FirstName = "Jules",  LastName = "Garnier",  UserName = "jules.garnier",  NormalizedUserName = "JULES.GARNIER",  Email = "jules.garnier@esgi.fr",     NormalizedEmail = "JULES.GARNIER@ESGI.FR",     EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP10", ConcurrencyStamp = "CONCSTAMP10", OrganizationId = 102, FiliereId = 103, Status = UserStatus.Active }
+            new User { Id = 101, FirstName = "Anis",    LastName = "Ben Jemia", BirthDate = defaultBirthDate, UserName = "anis.benjemia",    NormalizedUserName = "ANIS.BENJEMIA",    Email = "anis.benjemia@ynov.com",    NormalizedEmail = "ANIS.BENJEMIA@YNOV.COM",    EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP1",  ConcurrencyStamp = "CONCSTAMP1",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 102, FirstName = "Lukas",   LastName = "Bouhlel", BirthDate = defaultBirthDate,     UserName = "lukas.bouhlel",    NormalizedUserName = "LUKAS.BOUHLEL",    Email = "lukas.bouhlel@ynov.com",    NormalizedEmail = "LUKAS.BOUHLEL@YNOV.COM",    EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP2",  ConcurrencyStamp = "CONCSTAMP2",  OrganizationId = 101, FiliereId = 102, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 103, FirstName = "Elias",   LastName = "El Oudghiri", BirthDate = defaultBirthDate, UserName = "elias.eloudghiri", NormalizedUserName = "ELIAS.ELOUDGHIRI", Email = "elias.eloudghiri@ynov.com", NormalizedEmail = "ELIAS.ELOUDGHIRI@YNOV.COM", EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP3",  ConcurrencyStamp = "CONCSTAMP3",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 104, FirstName = "Matthieu",LastName = "Vernier", BirthDate = defaultBirthDate,     UserName = "matthieu.vernier",  NormalizedUserName = "MATTHIEU.VERNIER",  Email = "matthieu.vernier@ynov.com",  NormalizedEmail = "MATTHIEU.VERNIER@YNOV.COM",  EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP4",  ConcurrencyStamp = "CONCSTAMP4",  OrganizationId = 101, FiliereId = 102, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 105, FirstName = "Hajar",   LastName = "Zahoui", BirthDate = defaultBirthDate,      UserName = "hajar.zahoui",     NormalizedUserName = "HAJAR.ZAHOUI",     Email = "hajar.zahoui@ynov.com",     NormalizedEmail = "HAJAR.ZAHOUI@YNOV.COM",     EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP5",  ConcurrencyStamp = "CONCSTAMP5",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 106, FirstName = "Khadidja",LastName = "Khababa", BirthDate = defaultBirthDate,     UserName = "khadidja.khababa",  NormalizedUserName = "KHADIDJA.KHABABA",  Email = "khadidja.khababa@ynov.com",  NormalizedEmail = "KHADIDJA.KHABABA@YNOV.COM",  EmailConfirmed = false, ConcurrencyStamp = "CONCSTAMP6",  OrganizationId = 101, FiliereId = 102, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 107, FirstName = "Léa",    LastName = "Regoudis", BirthDate = defaultBirthDate,    UserName = "lea.regoudis",     NormalizedUserName = "LEA.REGOUDIS",     Email = "lea.regoudis@ynov.com",     NormalizedEmail = "LEA.REGOUDIS@YNOV.COM",     EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP7",  ConcurrencyStamp = "CONCSTAMP7",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 108, FirstName = "Hugo",   LastName = "Laurent", BirthDate = defaultBirthDate, UserName = "hugo.laurent",   NormalizedUserName = "HUGO.LAURENT",   Email = "hugo.laurent@ynov.com",   NormalizedEmail = "HUGO.LAURENT@YNOV.COM",   EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP8",  ConcurrencyStamp = "CONCSTAMP8",  OrganizationId = 101, FiliereId = 102, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 109, FirstName = "Ines",   LastName = "Thomas", BirthDate = defaultBirthDate,  UserName = "ines.thomas",    NormalizedUserName = "INES.THOMAS",    Email = "ines.thomas@ynov.com",    NormalizedEmail = "INES.THOMAS@YNOV.COM",    EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP9",  ConcurrencyStamp = "CONCSTAMP9",  OrganizationId = 101, FiliereId = 101, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 },
+            new User { Id = 110, FirstName = "Jules",  LastName = "Garnier", BirthDate = defaultBirthDate, UserName = "jules.garnier",  NormalizedUserName = "JULES.GARNIER",  Email = "jules.garnier@esgi.fr",     NormalizedEmail = "JULES.GARNIER@ESGI.FR",     EmailConfirmed = true, PasswordHash = defaultPasswordHash, SecurityStamp = "SECSTAMP10", ConcurrencyStamp = "CONCSTAMP10", OrganizationId = 102, FiliereId = 103, Status = UserStatus.Active, CreatedAt = seedDate2, UpdatedAt = seedDate2 }
         );
 
         // --- USER ROLES (user 1 = SchoolAdmin, rest = Student) ---

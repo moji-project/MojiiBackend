@@ -18,6 +18,20 @@ public class OrganizationsController (OrganizationService organizationService, R
         return Ok(organization);
     }
 
+    [HttpGet("GetStudentsOfOrganizationOrderByCreationDate/{organizationId:int}")]
+    public async Task<ActionResult<List<UserDto>>> GetStudentsOfOrganizationOrderByCreationDate(int organizationId)
+    {
+        var students = await organizationService.GetStudentsOfOrganizationOrderByCreationDate(organizationId);
+        return Ok(students);
+    }
+
+    [HttpGet("GetStatistics/{organizationId:int}")]
+    public async Task<ActionResult<OrganizationStatisticsDto>> GetStatistics(int organizationId)
+    {
+        var statistics = await organizationService.GetStatistics(organizationId);
+        return Ok(statistics);
+    }
+
     [HttpPost]
     public async Task<ActionResult> CreateOrganization([FromBody] OrganizationDto organizationDto)
     {
