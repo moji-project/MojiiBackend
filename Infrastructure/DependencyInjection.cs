@@ -47,7 +47,10 @@ public static class DependencyInjection
         var postsUploadsFolder = Path.Combine(webRoot, "uploads", "posts");
         Directory.CreateDirectory(postsUploadsFolder);
 
-        app.UseHttpsRedirection();
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseHttpsRedirection();
+        }
 
         app.UseStaticFiles(new StaticFileOptions
         {
