@@ -70,8 +70,8 @@ public static class AuthConfiguration
                     ValidateAudience = hasAudience,
                     ValidAudience = hasAudience ? audience : null,
             
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = false,
                     ClockSkew = TimeSpan.Zero // Supprime le délai de grâce de 5min par défaut
                 };
             });
